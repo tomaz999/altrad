@@ -3,8 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <title>Regiebon - ALTRAD Services Benelux</title>
-  <!-- Biblioteka do renderowania strony jako obraz/canvas -->
+  
+  <!-- Biblioteka html2canvas -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  
+  <!-- Biblioteka Flatpickr -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+  <!-- SDK EmailJS -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function(){
+      // Zainicjowano Twoim kluczem publicznym
+      emailjs.init("cUVNja73rJnKEQB6A"); 
+    })();
+  </script>
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -115,7 +130,7 @@
       font-weight: bold;
     }
 
-    .field-group input {
+    .field-group input[type="text"] {
       flex: 1;
       border: none;
       border-bottom: 1px dotted #666;
@@ -124,10 +139,46 @@
       outline: none;
     }
 
-    /* Stylizacja pola daty */
-    input[type="date"] {
-      font-family: Arial, sans-serif;
+    /* Styl przełącznika (radio-toggle) */
+    .radio-toggle {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .radio-toggle label {
+      width: auto;
+      font-weight: normal;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .radio-toggle input[type="radio"] {
+      cursor: pointer;
+      margin: 0;
+    }
+
+    /* Kontener dla pola daty z ikoną kalendarza */
+    .date-wrapper {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .date-wrapper input {
+      width: 100%;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .date-icon {
+      margin-left: -18px;
+      cursor: pointer;
+      pointer-events: none;
+      font-size: 12px;
     }
 
     /* Nagłówki sekcji */
@@ -144,17 +195,17 @@
     .text-box {
       border: 1px solid #000;
       margin-bottom: 15px;
+      padding: 4px;
     }
 
-    .text-box textarea {
+    .text-box input {
       width: 100%;
       border: none;
-      padding: 8px;
+      padding: 6px;
       box-sizing: border-box;
       font-family: Arial, sans-serif;
       font-size: 11px;
       outline: none;
-      resize: vertical;
     }
 
     /* Tabela godzin */
@@ -220,7 +271,7 @@
 <body>
 
   <div class="action-bar">
-    <button class="btn-jpg" onclick="generujJPG()">Pobierz jako JPG</button>
+    <button class="btn-jpg" id="btn-submit" onclick="generujJPGiWyslij()">Pobierz JPG i wyślij E-mail</button>
   </div>
 
   <div class="page-container" id="bon-pracy">
@@ -248,6 +299,16 @@
           <label>Aangevraagd door:</label>
           <input type="text">
         </div>
+        <!-- PRZEŁĄCZNIK POD AANGEVRAAGD DOOR -->
+        <div class="field-group" style="margin-top: 8px;">
+          <label></label>
+          <div class="radio-toggle">
+            <label><input type="radio" name="aangevraagd_optie" value="Ho6" checked> Ho6</label>
+            <label><input type="radio" name="aangevraagd_optie" value="Ho7"> Ho7</label>
+            <label><input type="radio" name="aangevraagd_optie" value="KMG"> KMG</label>
+            <label><input type="radio" name="aangevraagd_optie" value="WR"> WR</label>
+          </div>
+        </div>
       </div>
 
       <div class="info-block">
@@ -269,13 +330,13 @@
     <!-- SAMODZIELNA SEKCJA LOCATIE / PLAATS -->
     <div class="section-header">Locatie / Plaats</div>
     <div class="text-box">
-      <textarea list="baza-locatie" style="height: 50px;" placeholder="Zacznij pisać lokalizację lub wybierz z bazy..."></textarea>
+      <input type="text" list="baza-locatie" placeholder="Zacznij pisać lokalizację lub wybierz z bazy...">
     </div>
 
     <!-- SEKCJA OMSCHRIJVING REGIEWERKZAAMHEDEN -->
     <div class="section-header">Omschrijving Regiewerkzaamheden</div>
     <div class="text-box">
-      <textarea list="baza-omschrijving" style="height: 100px;" placeholder="Zacznij pisać opis prac lub wybierz z bazy..."></textarea>
+      <input type="text" list="baza-omschrijving" placeholder="Zacznij pisać opis prac lub wybierz z bazy...">
     </div>
 
     <!-- TABELA SPECYFIKACJI PERSONELU I GODZIN -->
@@ -355,7 +416,14 @@
       <option value="Monteur">
     </datalist>
 
-    <!-- Baza Pracowników -->
+    <!-- Baza Akkoord Altrad (Tylko 3 wyznaczone osoby) -->
+    <datalist id="baza-altrad">
+      <option value="Paweł Wysokiński">
+      <option value="Jurjen Adamson">
+      <option value="Tomasz Rusiecki">
+    </datalist>
+
+    <!-- Baza Pracowników (dla tabeli godzin) -->
     <datalist id="baza-pracownikow">
       <option value="Wysokński P.">
       <option value="Adamson J.">
@@ -400,11 +468,14 @@
         <div class="signature-title">Akkoord Altrad</div>
         <div class="field-group">
           <label>Naam:</label>
-          <input type="text" list="baza-pracownikow" placeholder="Wybierz lub wpisz nazwisko z bazy...">
+          <input type="text" list="baza-altrad" placeholder="Wybierz osobę z bazy...">
         </div>
         <div class="field-group">
           <label>Datum:</label>
-          <input type="date">
+          <div class="date-wrapper">
+            <input type="text" id="datum-input" placeholder="DD/MM/YYYY">
+            <span class="date-icon">📅</span>
+          </div>
         </div>
         <div class="field-group">
           <label>Handtekening:</label>
@@ -436,19 +507,49 @@
       tbody.appendChild(tr);
     }
 
-    // Generator pliku JPG
-    function generujJPG() {
+    // Inicjalizacja interaktywnego kalendarza
+    flatpickr("#datum-input", {
+      dateFormat: "d/m/Y",
+      defaultDate: "today",
+      disableMobile: "true"
+    });
+
+    // Funkcja generująca JPG i wysyłająca e-mail przez EmailJS
+    function generujJPGiWyslij() {
+      const btn = document.getElementById('btn-submit');
+      btn.innerText = "Generowanie i wysyłanie...";
+      btn.disabled = true;
+
       const element = document.getElementById('bon-pracy');
       
-      // html2canvas przetwarza kontener formularza na obrazek
       html2canvas(element, {
-        scale: 2, // wyższa rozdzielczość pliku
-        backgroundColor: "#ffffff" // białe tło
+        scale: 2,
+        backgroundColor: "#ffffff"
       }).then(canvas => {
+        const imageBase64 = canvas.toDataURL('image/jpeg', 0.90);
+
+        // 1. Pobierz plik JPG na komputer lokalny
         const link = document.createElement('a');
         link.download = 'Regiebon_Altrad.jpg';
-        link.href = canvas.toDataURL('image/jpeg', 0.95); // jakość JPG
+        link.href = imageBase64;
         link.click();
+
+        // 2. Wyślij e-mail z załącznikiem za pomocą EmailJS
+        const templateParams = {
+          my_file: imageBase64 
+        };
+
+        // PODMIEN 'TWOJ_SERVICE_ID' na identyfikator usługi z EmailJS
+        emailjs.send('TWOJ_SERVICE_ID', 'template_fk8w0nf', templateParams)
+          .then(function(response) {
+             alert('Plik pobrany i e-mail wysłany pomyślnie!');
+             btn.innerText = "Pobierz JPG i wyślij E-mail";
+             btn.disabled = false;
+          }, function(error) {
+             alert('Plik pobrany, ale wystąpił błąd przy wysyłaniu e-maila: ' + JSON.stringify(error));
+             btn.innerText = "Pobierz JPG i wyślij E-mail";
+             btn.disabled = false;
+          });
       });
     }
   </script>
