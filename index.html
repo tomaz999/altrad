@@ -559,7 +559,7 @@
           opdrachtgever: document.getElementById('input-opdrachtgever')?.value || '-'
         };
 
-        emailjs.send('alrrad', 'template_fk8w0nf', templateParams)
+        emailjs.send('altrad', 'template_fk8w0nf', templateParams)
           .then(function(response) {
              alert('Plik JPG został pobrany i pomyślnie wysłany e-mailem!');
              btn.innerText = "Pobierz JPG i wyślij E-mail";
