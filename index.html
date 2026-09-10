@@ -15,7 +15,6 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script type="text/javascript">
     (function(){
-      // Inicjalizacja kluczem publicznym
       emailjs.init("cUVNja73rJnKEQB6A"); 
     })();
   </script>
@@ -51,7 +50,6 @@
       background-color: #003d80;
     }
 
-    /* Container A4 */
     .page-container {
       background: white;
       width: 800px;
@@ -102,7 +100,6 @@
       font-style: italic;
     }
 
-    /* Sekcja pól informacyjnych */
     .info-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -139,7 +136,6 @@
       outline: none;
     }
 
-    /* Styl przełącznika (radio-toggle) */
     .radio-toggle {
       display: flex;
       gap: 10px;
@@ -160,7 +156,6 @@
       margin: 0;
     }
 
-    /* Kontener dla pola daty z ikoną kalendarza */
     .date-wrapper {
       flex: 1;
       display: flex;
@@ -181,7 +176,6 @@
       font-size: 12px;
     }
 
-    /* Nagłówki sekcji */
     .section-header {
       background-color: #e0e0e0;
       border: 1px solid #000;
@@ -191,7 +185,6 @@
       text-transform: uppercase;
     }
 
-    /* Wielowierszowe ramki (Locatie & Omschrijving) */
     .text-box {
       border: 1px solid #000;
       margin-bottom: 15px;
@@ -208,7 +201,6 @@
       outline: none;
     }
 
-    /* Tabela godzin */
     .hours-table {
       width: 100%;
       border-collapse: collapse;
@@ -243,7 +235,6 @@
       text-align: center;
     }
 
-    /* Podpis - pełna szerokość */
     .single-signature-container {
       margin-top: 10px;
     }
@@ -299,7 +290,6 @@
           <label>Aangevraagd door:</label>
           <input type="text" id="input-aangevraagd">
         </div>
-        <!-- PRZEŁĄCZNIK POD AANGEVRAAGD DOOR -->
         <div class="field-group" style="margin-top: 8px;">
           <label></label>
           <div class="radio-toggle">
@@ -327,13 +317,11 @@
       </div>
     </div>
 
-    <!-- SAMODZIELNA SEKCJA LOCATIE / PLAATS -->
     <div class="section-header">Locatie / Plaats</div>
     <div class="text-box">
       <input type="text" id="input-locatie" list="baza-locatie" placeholder="Zacznij pisać lokalizację lub wybierz z bazy...">
     </div>
 
-    <!-- SEKCJA OMSCHRIJVING REGIEWERKZAAMHEDEN -->
     <div class="section-header">Omschrijving Regiewerkzaamheden</div>
     <div class="text-box">
       <input 
@@ -344,7 +332,6 @@
       >
     </div>
 
-    <!-- TABELA SPECYFIKACJI PERSONELU I GODZIN -->
     <div class="section-header" style="border-bottom: 1px solid #000;">Personeel / Urenspecificatie</div>
     <table class="hours-table">
       <thead>
@@ -356,13 +343,9 @@
         </tr>
       </thead>
       <tbody id="tabela-pracownikow">
-        <!-- 12 wierszy generowanych automatycznie przez JS -->
       </tbody>
     </table>
 
-    <!-- ================= BAZY DANYCH (DATALISTS) ================= -->
-
-    <!-- Baza Opdrachtgever -->
     <datalist id="baza-opdrachtgever">
       <option value="Benno Buter">
       <option value="Bob van Vliet">
@@ -399,7 +382,6 @@
       <option value="Theo Dubbelman">
     </datalist>
 
-    <!-- Baza Locatie / Plaats -->
     <datalist id="baza-locatie">
       <option value="100 Bunkergebouw">
       <option value="200 Hellende lift">
@@ -414,7 +396,6 @@
       <option value="KMG">
     </datalist>
 
-    <!-- Baza Omschrijving -->
     <datalist id="baza-omschrijving">
       <option value="Montage">
       <option value="Montage+Verankeren">
@@ -424,20 +405,17 @@
       <option value="Material Transport">
     </datalist>
 
-    <!-- Baza Functie -->
     <datalist id="baza-functie">
       <option value="Voorman">
       <option value="Monteur">
     </datalist>
 
-    <!-- Baza Akkoord Altrad -->
     <datalist id="baza-altrad">
       <option value="Paweł Wysokiński">
       <option value="Jurjen Adamson">
       <option value="Tomasz Rusiecki">
     </datalist>
 
-    <!-- Baza Pracowników (dla tabeli godzin) -->
     <datalist id="baza-pracownikow">
       <option value="Wysokński P.">
       <option value="Adamson J.">
@@ -476,7 +454,6 @@
       <option value="Macatangay R.">  
     </datalist>
 
-    <!-- ================= PODPIS ALTRAD ================= -->
     <div class="single-signature-container">
       <div class="signature-block">
         <div class="signature-title">Akkoord Altrad</div>
@@ -501,7 +478,6 @@
   </div>
 
   <script>
-    // Generowanie 12 wierszy tabeli
     const tbody = document.getElementById('tabela-pracownikow');
 
     for (let i = 1; i <= 12; i++) {
@@ -521,14 +497,12 @@
       tbody.appendChild(tr);
     }
 
-    // Inicjalizacja interaktywnego kalendarza
     flatpickr("#datum-input", {
       dateFormat: "d/m/Y",
       defaultDate: "today",
       disableMobile: "true"
     });
 
-    // Obsługa wielokrotnego wyboru opcji w polu Omschrijving
     const inputOmschrijving = document.getElementById('input-omschrijving');
     let dotychczasowyTekst = '';
 
@@ -559,7 +533,6 @@
       }
     });
 
-    // Funkcja generująca JPG i wysyłająca dane przez EmailJS
     function generujJPGiWyslij() {
       const btn = document.getElementById('btn-submit');
       btn.innerText = "Generowanie i wysyłanie...";
@@ -567,56 +540,32 @@
 
       const element = document.getElementById('bon-pracy');
       
+      // Wyższa jakość (skala 2, jakość 0.85) dająca czytelny plik ok. 150-250 KB
       html2canvas(element, {
         scale: 2,
         backgroundColor: "#ffffff"
       }).then(canvas => {
-        const imageBase64 = canvas.toDataURL('image/jpeg', 0.90);
+        const imageBase64 = canvas.toDataURL('image/jpeg', 0.85);
 
-        // 1. Pobierz plik JPG na komputer
+        // Pobieranie kopii lokalnej
         const link = document.createElement('a');
         link.download = 'Regiebon_Altrad.jpg';
         link.href = imageBase64;
         link.click();
 
-        // 2. Zbierz dane pracowników z tabeli
-        let pracownicyTekst = '';
-        const wiersze = document.querySelectorAll('#tabela-pracownikow tr');
-        wiersze.forEach((tr, index) => {
-          const naam = tr.querySelector('.input-pracownik-naam')?.value || '';
-          const functie = tr.querySelector('.input-pracownik-functie')?.value || '';
-          const uren = tr.querySelector('.input-pracownik-uren')?.value || '';
-          
-          if (naam !== '' || uren !== '') {
-            pracownicyTekst += `${index + 1}. ${naam} (${functie}) - ${uren}h; `;
-          }
-        });
-
-        // 3. Zbierz wybraną opcję radio (Ho6/Ho7/KMG/WR)
-        const radioOptie = document.querySelector('input[name="aangevraagd_optie"]:checked')?.value || '';
-
-        // 4. Przygotuj lekkie dane tekstowe do szablonu EmailJS (< 50 KB)
+        // Wysłanie obrazu w wysokiej rozdzielczości do EmailJS
         const templateParams = {
-          opdrachtgever: document.getElementById('input-opdrachtgever')?.value || '-',
-          aangevraagd_door: (document.getElementById('input-aangevraagd')?.value || '-') + ' [' + radioOptie + ']',
-          opdrachtnummer: document.getElementById('input-opdrachtnummer')?.value || '-',
-          projectnummer: document.getElementById('input-projectnummer')?.value || '-',
-          steigernummer: document.getElementById('input-steigernummer')?.value || '-',
-          locatie: document.getElementById('input-locatie')?.value || '-',
-          omschrijving: document.getElementById('input-omschrijving')?.value || '-',
-          pracownicy: pracownicyTekst || 'Brak wpisanych pracowników',
-          datum: document.getElementById('datum-input')?.value || '-',
-          akkoord_naam: document.getElementById('input-altrad-naam')?.value || '-'
+          content_jpg: imageBase64,
+          opdrachtgever: document.getElementById('input-opdrachtgever')?.value || '-'
         };
 
-        // Wysyłka danych przy użyciu identyfikatora usługi "alrrad"
-        emailjs.send('altrad', 'template_fk8w0nf', templateParams)
+        emailjs.send('alrrad', 'template_fk8w0nf', templateParams)
           .then(function(response) {
-             alert('Plik JPG został pobrany, a dane z formularza zostały pomyślnie wysłane e-mailem!');
+             alert('Plik JPG został pobrany i pomyślnie wysłany e-mailem!');
              btn.innerText = "Pobierz JPG i wyślij E-mail";
              btn.disabled = false;
           }, function(error) {
-             alert('Plik JPG został pobrany, ale wystąpił błąd EmailJS: ' + JSON.stringify(error));
+             alert('Plik pobrany, ale wystąpił błąd EmailJS: ' + JSON.stringify(error));
              btn.innerText = "Pobierz JPG i wyślij E-mail";
              btn.disabled = false;
           });
