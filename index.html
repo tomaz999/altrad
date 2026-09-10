@@ -15,7 +15,7 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script type="text/javascript">
     (function(){
-      // Zainicjowano Twoim kluczem publicznym
+      // Inicjalizacja kluczem publicznym
       emailjs.init("cUVNja73rJnKEQB6A"); 
     })();
   </script>
@@ -293,11 +293,11 @@
       <div class="info-block">
         <div class="field-group">
           <label>Opdrachtgever:</label>
-          <input type="text" list="baza-opdrachtgever" placeholder="Zacznij pisać lub wybierz z bazy...">
+          <input type="text" id="input-opdrachtgever" list="baza-opdrachtgever" placeholder="Zacznij pisać lub wybierz z bazy...">
         </div>
         <div class="field-group">
           <label>Aangevraagd door:</label>
-          <input type="text">
+          <input type="text" id="input-aangevraagd">
         </div>
         <!-- PRZEŁĄCZNIK POD AANGEVRAAGD DOOR -->
         <div class="field-group" style="margin-top: 8px;">
@@ -314,15 +314,15 @@
       <div class="info-block">
         <div class="field-group">
           <label>Opdrachtnummer:</label>
-          <input type="text">
+          <input type="text" id="input-opdrachtnummer">
         </div>
         <div class="field-group">
           <label>Projectnummer:</label>
-          <input type="text">
+          <input type="text" id="input-projectnummer">
         </div>
         <div class="field-group">
           <label>Steigernummer:</label>
-          <input type="text">
+          <input type="text" id="input-steigernummer">
         </div>
       </div>
     </div>
@@ -330,13 +330,18 @@
     <!-- SAMODZIELNA SEKCJA LOCATIE / PLAATS -->
     <div class="section-header">Locatie / Plaats</div>
     <div class="text-box">
-      <input type="text" list="baza-locatie" placeholder="Zacznij pisać lokalizację lub wybierz z bazy...">
+      <input type="text" id="input-locatie" list="baza-locatie" placeholder="Zacznij pisać lokalizację lub wybierz z bazy...">
     </div>
 
     <!-- SEKCJA OMSCHRIJVING REGIEWERKZAAMHEDEN -->
     <div class="section-header">Omschrijving Regiewerkzaamheden</div>
     <div class="text-box">
-      <input type="text" list="baza-omschrijving" placeholder="Zacznij pisać opis prac lub wybierz z bazy...">
+      <input 
+        type="text" 
+        id="input-omschrijving" 
+        list="baza-omschrijving" 
+        placeholder="Zacznij pisać opis prac lub wybierz z bazy..."
+      >
     </div>
 
     <!-- TABELA SPECYFIKACJI PERSONELU I GODZIN -->
@@ -413,8 +418,8 @@
     <datalist id="baza-omschrijving">
       <option value="Montage">
       <option value="Montage+Verankeren">
-      <option value="Montage+Horizontale transport">
       <option value="Wacht tijd lift">
+      <option value="Montage+Horizontale transport">
       <option value="Demontage+opruimen sorteren">
       <option value="Material Transport">
     </datalist>
@@ -425,7 +430,7 @@
       <option value="Monteur">
     </datalist>
 
-    <!-- Baza Akkoord Altrad (Tylko 3 wyznaczone osoby) -->
+    <!-- Baza Akkoord Altrad -->
     <datalist id="baza-altrad">
       <option value="Paweł Wysokiński">
       <option value="Jurjen Adamson">
@@ -477,7 +482,7 @@
         <div class="signature-title">Akkoord Altrad</div>
         <div class="field-group">
           <label>Naam:</label>
-          <input type="text" list="baza-altrad" placeholder="Wybierz osobę z bazy...">
+          <input type="text" id="input-altrad-naam" list="baza-altrad" placeholder="Wybierz osobę z bazy...">
         </div>
         <div class="field-group">
           <label>Datum:</label>
@@ -488,7 +493,7 @@
         </div>
         <div class="field-group">
           <label>Handtekening:</label>
-          <input type="text" placeholder="Imię i nazwisko / podpis">
+          <input type="text" id="input-handtekening" placeholder="Imię i nazwisko / podpis">
         </div>
       </div>
     </div>
@@ -504,13 +509,13 @@
       tr.innerHTML = `
         <td class="center">${i}</td>
         <td>
-          <input type="text" list="baza-pracownikow" placeholder="Nazwisko...">
+          <input type="text" class="input-pracownik-naam" list="baza-pracownikow" placeholder="Nazwisko...">
         </td>
         <td>
-          <input type="text" list="baza-functie" placeholder="Stanowisko...">
+          <input type="text" class="input-pracownik-functie" list="baza-functie" placeholder="Stanowisko...">
         </td>
         <td>
-          <input type="number" class="num-input" step="0.5" placeholder="0">
+          <input type="number" class="num-input input-pracownik-uren" step="0.5" placeholder="0">
         </td>
       `;
       tbody.appendChild(tr);
@@ -523,7 +528,38 @@
       disableMobile: "true"
     });
 
-    // Funkcja generująca JPG i wysyłająca e-mail przez EmailJS
+    // Obsługa wielokrotnego wyboru opcji w polu Omschrijving
+    const inputOmschrijving = document.getElementById('input-omschrijving');
+    let dotychczasowyTekst = '';
+
+    inputOmschrijving.addEventListener('focus', function() {
+      dotychczasowyTekst = this.value;
+      this.value = '';
+    });
+
+    inputOmschrijving.addEventListener('change', function() {
+      const nowoWybranaOpcja = this.value.trim();
+
+      if (nowoWybranaOpcja !== '') {
+        if (dotychczasowyTekst !== '') {
+          this.value = dotychczasowyTekst + ', ' + nowoWybranaOpcja;
+        } else {
+          this.value = nowoWybranaOpcja;
+        }
+      } else {
+        this.value = dotychczasowyTekst;
+      }
+      
+      dotychczasowyTekst = this.value;
+    });
+
+    inputOmschrijving.addEventListener('blur', function() {
+      if (this.value === '' && dotychczasowyTekst !== '') {
+        this.value = dotychczasowyTekst;
+      }
+    });
+
+    // Funkcja generująca JPG i wysyłająca dane przez EmailJS
     function generujJPGiWyslij() {
       const btn = document.getElementById('btn-submit');
       btn.innerText = "Generowanie i wysyłanie...";
@@ -537,25 +573,50 @@
       }).then(canvas => {
         const imageBase64 = canvas.toDataURL('image/jpeg', 0.90);
 
-        // 1. Pobierz plik JPG na komputer lokalny
+        // 1. Pobierz plik JPG na komputer
         const link = document.createElement('a');
         link.download = 'Regiebon_Altrad.jpg';
         link.href = imageBase64;
         link.click();
 
-        // 2. Wyślij e-mail z załącznikiem za pomocą EmailJS
+        // 2. Zbierz dane pracowników z tabeli
+        let pracownicyTekst = '';
+        const wiersze = document.querySelectorAll('#tabela-pracownikow tr');
+        wiersze.forEach((tr, index) => {
+          const naam = tr.querySelector('.input-pracownik-naam')?.value || '';
+          const functie = tr.querySelector('.input-pracownik-functie')?.value || '';
+          const uren = tr.querySelector('.input-pracownik-uren')?.value || '';
+          
+          if (naam !== '' || uren !== '') {
+            pracownicyTekst += `${index + 1}. ${naam} (${functie}) - ${uren}h; `;
+          }
+        });
+
+        // 3. Zbierz wybraną opcję radio (Ho6/Ho7/KMG/WR)
+        const radioOptie = document.querySelector('input[name="aangevraagd_optie"]:checked')?.value || '';
+
+        // 4. Przygotuj lekkie dane tekstowe do szablonu EmailJS (< 50 KB)
         const templateParams = {
-          my_file: imageBase64 
+          opdrachtgever: document.getElementById('input-opdrachtgever')?.value || '-',
+          aangevraagd_door: (document.getElementById('input-aangevraagd')?.value || '-') + ' [' + radioOptie + ']',
+          opdrachtnummer: document.getElementById('input-opdrachtnummer')?.value || '-',
+          projectnummer: document.getElementById('input-projectnummer')?.value || '-',
+          steigernummer: document.getElementById('input-steigernummer')?.value || '-',
+          locatie: document.getElementById('input-locatie')?.value || '-',
+          omschrijving: document.getElementById('input-omschrijving')?.value || '-',
+          pracownicy: pracownicyTekst || 'Brak wpisanych pracowników',
+          datum: document.getElementById('datum-input')?.value || '-',
+          akkoord_naam: document.getElementById('input-altrad-naam')?.value || '-'
         };
 
-        // PODMIEN 'TWOJ_SERVICE_ID' na identyfikator usługi z EmailJS
+        // Wysyłka danych przy użyciu identyfikatora usługi "alrrad"
         emailjs.send('altrad', 'template_fk8w0nf', templateParams)
           .then(function(response) {
-             alert('Plik pobrany i e-mail wysłany pomyślnie!');
+             alert('Plik JPG został pobrany, a dane z formularza zostały pomyślnie wysłane e-mailem!');
              btn.innerText = "Pobierz JPG i wyślij E-mail";
              btn.disabled = false;
           }, function(error) {
-             alert('Plik pobrany, ale wystąpił błąd przy wysyłaniu e-maila: ' + JSON.stringify(error));
+             alert('Plik JPG został pobrany, ale wystąpił błąd EmailJS: ' + JSON.stringify(error));
              btn.innerText = "Pobierz JPG i wyślij E-mail";
              btn.disabled = false;
           });
