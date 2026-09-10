@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <title>Regiebon - ALTRAD Services Benelux</title>
+  <!-- Biblioteka do renderowania strony jako obraz/canvas -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+      font-size: 12px;
+    }
+
+    .action-bar {
+      max-width: 800px;
+      margin: 0 auto 20px auto;
+      text-align: right;
+    }
+
+    .btn-jpg {
+      background-color: #0056b3;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .btn-jpg:hover {
+      background-color: #003d80;
+    }
+
+    /* Container A4 */
+    .page-container {
+      background: white;
+      width: 800px;
+      margin: 0 auto;
+      padding: 30px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .header-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 15px;
+    }
+
+    .header-table td {
+      vertical-align: top;
+    }
+
+    .logo-text {
+      font-size: 24px;
+      font-weight: bold;
+      color: #000;
+      letter-spacing: 1px;
+    }
+
+    .logo-sub {
+      font-size: 10px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    .title-box {
+      text-align: right;
+    }
+
+    .title-box h1 {
+      margin: 0;
+      font-size: 20px;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+
+    .title-box p {
+      margin: 2px 0 0 0;
+      font-size: 11px;
+      font-style: italic;
+    }
+
+    /* Sekcja pól informacyjnych */
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .info-block {
+      border: 1px solid #000;
+      padding: 8px;
+    }
+
+    .field-group {
+      display: flex;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .field-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .field-group label {
+      width: 130px;
+      font-weight: bold;
+    }
+
+    .field-group input {
+      flex: 1;
+      border: none;
+      border-bottom: 1px dotted #666;
+      padding: 2px 5px;
+      font-size: 11px;
+      outline: none;
+    }
+
+    /* Stylizacja pola daty */
+    input[type="date"] {
+      font-family: Arial, sans-serif;
+      cursor: pointer;
+    }
+
+    /* Nagłówki sekcji */
+    .section-header {
+      background-color: #e0e0e0;
+      border: 1px solid #000;
+      border-bottom: none;
+      padding: 4px 8px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    /* Wielowierszowe ramki (Locatie & Omschrijving) */
+    .text-box {
+      border: 1px solid #000;
+      margin-bottom: 15px;
+    }
+
+    .text-box textarea {
+      width: 100%;
+      border: none;
+      padding: 8px;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      outline: none;
+      resize: vertical;
+    }
+
+    /* Tabela godzin */
+    .hours-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 15px;
+    }
+
+    .hours-table th, .hours-table td {
+      border: 1px solid #000;
+      padding: 4px 6px;
+      text-align: left;
+    }
+
+    .hours-table th {
+      background-color: #e0e0e0;
+      font-size: 11px;
+      text-align: center;
+    }
+
+    .hours-table td.center {
+      text-align: center;
+    }
+
+    .hours-table input {
+      width: 100%;
+      border: none;
+      outline: none;
+      font-size: 11px;
+      background: transparent;
+    }
+
+    .hours-table input.num-input {
+      text-align: center;
+    }
+
+    /* Podpis - pełna szerokość */
+    .single-signature-container {
+      margin-top: 10px;
+    }
+
+    .signature-block {
+      border: 1px solid #000;
+      padding: 8px;
+    }
+
+    .signature-title {
+      font-weight: bold;
+      border-bottom: 1px solid #000;
+      padding-bottom: 4px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    @media print {
+      .action-bar { display: none; }
+      body { padding: 0; background: white; }
+      .page-container { border: none; box-shadow: none; width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="action-bar">
+    <button class="btn-jpg" onclick="generujJPG()">Pobierz jako JPG</button>
+  </div>
+
+  <div class="page-container" id="bon-pracy">
+
+    <table class="header-table">
+      <tr>
+        <td>
+          <div class="logo-text">ALTRAD</div>
+          <div class="logo-sub">SERVICES BENELUX</div>
+        </td>
+        <td class="title-box">
+          <h1>REGIEBON</h1>
+          <p>Dagrapport Regiewerkzaamheden (1 Dag)</p>
+        </td>
+      </tr>
+    </table>
+
+    <div class="info-grid">
+      <div class="info-block">
+        <div class="field-group">
+          <label>Opdrachtgever:</label>
+          <input type="text" list="baza-opdrachtgever" placeholder="Zacznij pisać lub wybierz z bazy...">
+        </div>
+        <div class="field-group">
+          <label>Aangevraagd door:</label>
+          <input type="text">
+        </div>
+      </div>
+
+      <div class="info-block">
+        <div class="field-group">
+          <label>Opdrachtnummer:</label>
+          <input type="text">
+        </div>
+        <div class="field-group">
+          <label>Projectnummer:</label>
+          <input type="text">
+        </div>
+        <div class="field-group">
+          <label>Steigernummer:</label>
+          <input type="text">
+        </div>
+      </div>
+    </div>
+
+    <!-- SAMODZIELNA SEKCJA LOCATIE / PLAATS -->
+    <div class="section-header">Locatie / Plaats</div>
+    <div class="text-box">
+      <textarea list="baza-locatie" style="height: 50px;" placeholder="Zacznij pisać lokalizację lub wybierz z bazy..."></textarea>
+    </div>
+
+    <!-- SEKCJA OMSCHRIJVING REGIEWERKZAAMHEDEN -->
+    <div class="section-header">Omschrijving Regiewerkzaamheden</div>
+    <div class="text-box">
+      <textarea list="baza-omschrijving" style="height: 100px;" placeholder="Zacznij pisać opis prac lub wybierz z bazy..."></textarea>
+    </div>
+
+    <!-- TABELA SPECYFIKACJI PERSONELU I GODZIN -->
+    <div class="section-header" style="border-bottom: 1px solid #000;">Personeel / Urenspecificatie</div>
+    <table class="hours-table">
+      <thead>
+        <tr>
+          <th style="width: 30px;">Nr</th>
+          <th>Naam Medewerker</th>
+          <th style="width: 180px;">Functie</th>
+          <th style="width: 100px;">Totaal Uren</th>
+        </tr>
+      </thead>
+      <tbody id="tabela-pracownikow">
+        <!-- 12 wierszy generowanych automatycznie przez JS -->
+      </tbody>
+    </table>
+
+    <!-- ================= BAZY DANYCH (DATALISTS) ================= -->
+
+    <!-- Baza Opdrachtgever -->
+    <datalist id="baza-opdrachtgever">
+      <option value="TotalEnergies">
+      <option value="Shell Nederland">
+      <option value="Yara Sluiskil">
+      <option value="Dow Benelux">
+    </datalist>
+
+    <!-- Baza Locatie / Plaats -->
+    <datalist id="baza-locatie">
+      <option value="Vlissingen - Hal 3">
+      <option value="Terneuzen - Fabriek 2">
+      <option value="Rotterdam - Botlek">
+      <option value="Antwerpen - Haven 101">
+    </datalist>
+
+    <!-- Baza Omschrijving -->
+    <datalist id="baza-omschrijving">
+      <option value="Demontage van steigerwerkzaamheden">
+      <option value="Montage van pijpsteigers">
+      <option value="Isolatiewerkzaamheden leidingen">
+      <option value="Onderhoud en inspectie van steigerwerk">
+    </datalist>
+
+    <!-- Baza Functie -->
+    <datalist id="baza-functie">
+      <option value="Steigerbouwer">
+      <option value="Eerste Steigerbouwer">
+      <option value="Voorman">
+      <option value="Isoleerder">
+      <option value="Monteur">
+    </datalist>
+
+    <!-- Baza Pracowników -->
+    <datalist id="baza-pracownikow">
+      <option value="Jan Kowalski">
+      <option value="Piotr Nowak">
+      <option value="Mateusz Hommel">
+      <option value="Tomasz Rusiecki">
+      <option value="Adam Wiśniewski">
+    </datalist>
+
+    <!-- ================= PODPIS ALTRAD ================= -->
+    <div class="single-signature-container">
+      <div class="signature-block">
+        <div class="signature-title">Akkoord Altrad</div>
+        <div class="field-group">
+          <label>Naam:</label>
+          <input type="text" list="baza-pracownikow" placeholder="Wybierz lub wpisz nazwisko z bazy...">
+        </div>
+        <div class="field-group">
+          <label>Datum:</label>
+          <input type="date">
+        </div>
+        <div class="field-group">
+          <label>Handtekening:</label>
+          <input type="text" placeholder="Imię i nazwisko / podpis">
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Generowanie 12 wierszy tabeli
+    const tbody = document.getElementById('tabela-pracownikow');
+
+    for (let i = 1; i <= 12; i++) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td class="center">${i}</td>
+        <td>
+          <input type="text" list="baza-pracownikow" placeholder="Nazwisko...">
+        </td>
+        <td>
+          <input type="text" list="baza-functie" placeholder="Stanowisko...">
+        </td>
+        <td>
+          <input type="number" class="num-input" step="0.5" placeholder="0">
+        </td>
+      `;
+      tbody.appendChild(tr);
+    }
+
+    // Generator pliku JPG
+    function generujJPG() {
+      const element = document.getElementById('bon-pracy');
+      
+      // html2canvas przetwarza kontener formularza na obrazek
+      html2canvas(element, {
+        scale: 2, // wyższa rozdzielczość pliku
+        backgroundColor: "#ffffff" // białe tło
+      }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'Regiebon_Altrad.jpg';
+        link.href = canvas.toDataURL('image/jpeg', 0.95); // jakość JPG
+        link.click();
+      });
+    }
+  </script>
+</body>
+</html>
