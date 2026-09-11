@@ -379,12 +379,27 @@
       </div>
     </div>
 
-    <div class="section-header">Locatie / Plaats</div>
-    <div class="text-box">
-      <input type="text" id="input-locatie" list="baza-locatie" placeholder="Zacznij pisać lokalizację lub wybierz z bazy...">
+    <!-- Sekcja 2-kolumnowa: Locatie + Type Werkzaamheden -->
+    <div class="info-grid">
+      <div>
+        <div class="section-header">Locatie / Plaats</div>
+        <div class="text-box" style="margin-bottom: 0;">
+          <input type="text" id="input-locatie" list="baza-locatie" placeholder="Zacznij pisać lub wybierz...">
+        </div>
+      </div>
+      <div>
+        <div class="section-header">Type Werkzaamheden</div>
+        <div class="text-box" style="margin-bottom: 0; padding: 6px 8px;">
+          <div class="radio-toggle" style="height: 19px;">
+            <label><input type="radio" name="werk_type" value="Montage" checked> Montage</label>
+            <label><input type="radio" name="werk_type" value="Demontage"> Demontage</label>
+            <label><input type="radio" name="werk_type" value="Aanpassing"> Aanpassing</label>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="section-header">Omschrijving Regiewerkzaamheden</div>
+    <div class="section-header" style="margin-top: 15px;">Omschrijving Regiewerkzaamheden</div>
     <div class="text-box">
       <input 
         type="text" 
@@ -630,26 +645,37 @@
       const element = document.getElementById('bon-pracy');
       
       const steigernummerInput = document.getElementById('input-steigernummer')?.value.trim();
-      const czystaNazwa = steigernummerInput ? steigernummerInput.replace(/[/\\?%*:|"<>]/g, '-') : 'Regiebon_Altrad';
+      const werkTypeSelected = document.querySelector('input[name="werk_type"]:checked')?.value || '';
+
+      let nazwaBazowa = '';
+      if (steigernummerInput && werkTypeSelected) {
+        nazwaBazowa = `${steigernummerInput}_${werkTypeSelected}`;
+      } else if (steigernummerInput) {
+        nazwaBazowa = steigernummerInput;
+      } else if (werkTypeSelected) {
+        nazwaBazowa = `Regiebon_${werkTypeSelected}`;
+      } else {
+        nazwaBazowa = 'Regiebon_Altrad';
+      }
+
+      const czystaNazwa = nazwaBazowa.replace(/[/\\?%*:|"<>]/g, '-');
       const nazwaPliku = czystaNazwa + '.jpg';
 
       html2canvas(element, {
         scale: 2,
         backgroundColor: "#ffffff"
       }).then(canvas => {
-        // Pełny URL Data URI z prefiksem do pobrania lokalnego
         const imageBase64Full = canvas.toDataURL('image/jpeg', 0.85);
 
-        // 1. Pobieranie pliku na urządzenie użytkownika
+        // Pobieranie pliku lokalnie
         const link = document.createElement('a');
         link.download = nazwaPliku;
         link.href = imageBase64Full;
         link.click();
 
-        // 2. Wyciągnięcie czystego ciągu Base64 (bez prefiksu)
+        // Czysty ciąg Base64 do EmailJS
         const pureBase64 = imageBase64Full.split(',')[1];
 
-        // Przygotowanie danych do szablonu EmailJS
         const templateParams = {
           content_jpg: pureBase64,
           file_name: nazwaPliku,
