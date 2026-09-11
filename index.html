@@ -632,27 +632,35 @@
 
       const element = document.getElementById('bon-pracy');
       
+      // Pobieramy wartość z pola Steigernummer
+      const steigernummerInput = document.getElementById('input-steigernummer')?.value.trim();
+      
+      // Tworzymy bezpieczną nazwę pliku (zamienia znaki niedozwolone w nazwach plików na myślniki)
+      const czystaNazwa = steigernummerInput ? steigernummerInput.replace(/[/\\?%*:|"<>]/g, '-') : 'Regiebon_Altrad';
+      const nazwaPliku = czystaNazwa + '.jpg';
+
       html2canvas(element, {
         scale: 2,
         backgroundColor: "#ffffff"
       }).then(canvas => {
         const imageBase64 = canvas.toDataURL('image/jpeg', 0.85);
 
-        // Pobieranie kopii lokalnej
+        // Pobieranie kopii lokalnej pod nową nazwą
         const link = document.createElement('a');
-        link.download = 'Regiebon_Altrad.jpg';
+        link.download = nazwaPliku;
         link.href = imageBase64;
         link.click();
 
         // Wysłanie obrazu do EmailJS
         const templateParams = {
           content_jpg: imageBase64,
-          opdrachtgever: document.getElementById('input-opdrachtgever')?.value || '-'
+          opdrachtgever: document.getElementById('input-opdrachtgever')?.value || '-',
+          steigernummer: steigernummerInput || '-'
         };
 
         emailjs.send('altrad', 'template_fk8w0nf', templateParams)
           .then(function(response) {
-             alert('Het JPG-bestand is gedownload en succesvol verzonden via e-mail!');
+             alert('Het JPG-bestand (' + nazwaPliku + ') is gedownload en succesvol verzonden via e-mail!');
              btn.innerText = "JPG downloaden en e-mail verzenden";
              btn.disabled = false;
           }, function(error) {
