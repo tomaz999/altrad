@@ -637,23 +637,28 @@
         scale: 2,
         backgroundColor: "#ffffff"
       }).then(canvas => {
-        const imageBase64 = canvas.toDataURL('image/jpeg', 0.85);
+        // Pełny URL z prefiksem
+        const imageBase64Full = canvas.toDataURL('image/jpeg', 0.85);
 
-        // Pobieranie kopii lokalnej
+        // 1. Pobieranie kopii lokalnej na urządzenie
         const link = document.createElement('a');
         link.download = nazwaPliku;
-        link.href = imageBase64;
+        link.href = imageBase64Full;
         link.click();
 
-        // Przygotowanie danych do wysyłki EmailJS wraz z nazwą załącznika
+        // 2. Wyciągamy sam czysty ciąg znaków Base64 (bez "data:image/jpeg;base64,")
+        const pureBase64 = imageBase64Full.split(',')[1];
+
+        // Przygotowanie danych do wysyłki EmailJS
         const templateParams = {
-          content_jpg: imageBase64,
+          content_jpg: imageBase64Full,
           opdrachtgever: document.getElementById('input-opdrachtgever')?.value || '-',
           steigernummer: steigernummerInput || '-',
-          // Załącznik z dynamiczną nazwą pliku:
+          file_name: nazwaPliku,
+          // Dodatkowy obiekt załącznika z czystym kodem Base64 i wybraną nazwą:
           my_attachment: {
             name: nazwaPliku,
-            data: imageBase64
+            data: pureBase64
           }
         };
 
