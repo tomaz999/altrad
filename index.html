@@ -637,29 +637,24 @@
         scale: 2,
         backgroundColor: "#ffffff"
       }).then(canvas => {
-        // Pełny URL z prefiksem
+        // Pełny URL Data URI z prefiksem do pobrania lokalnego
         const imageBase64Full = canvas.toDataURL('image/jpeg', 0.85);
 
-        // 1. Pobieranie kopii lokalnej na urządzenie
+        // 1. Pobieranie pliku na urządzenie użytkownika
         const link = document.createElement('a');
         link.download = nazwaPliku;
         link.href = imageBase64Full;
         link.click();
 
-        // 2. Wyciągamy sam czysty ciąg znaków Base64 (bez "data:image/jpeg;base64,")
+        // 2. Wyciągnięcie czystego ciągu Base64 (bez prefiksu)
         const pureBase64 = imageBase64Full.split(',')[1];
 
-        // Przygotowanie danych do wysyłki EmailJS
+        // Przygotowanie danych do szablonu EmailJS
         const templateParams = {
-          content_jpg: imageBase64Full,
-          opdrachtgever: document.getElementById('input-opdrachtgever')?.value || '-',
-          steigernummer: steigernummerInput || '-',
+          content_jpg: pureBase64,
           file_name: nazwaPliku,
-          // Dodatkowy obiekt załącznika z czystym kodem Base64 i wybraną nazwą:
-          my_attachment: {
-            name: nazwaPliku,
-            data: pureBase64
-          }
+          opdrachtgever: document.getElementById('input-opdrachtgever')?.value || '-',
+          steigernummer: steigernummerInput || '-'
         };
 
         emailjs.send('altrad', 'template_fk8w0nf', templateParams)
