@@ -30,15 +30,15 @@
 
     .action-bar {
       max-width: 800px;
-      margin: 0 auto 20px auto;
-      text-align: right;
+      margin: 20px auto 0 auto;
+      text-align: center;
     }
 
     .btn-jpg {
       background-color: #0056b3;
       color: white;
       border: none;
-      padding: 10px 20px;
+      padding: 12px 24px;
       font-size: 14px;
       font-weight: bold;
       border-radius: 4px;
@@ -252,18 +252,80 @@
       text-transform: uppercase;
     }
 
+    /* Modal / Okienko dialogowe */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-box {
+      background: white;
+      padding: 20px 25px;
+      border-radius: 6px;
+      max-width: 420px;
+      width: 90%;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      text-align: center;
+    }
+
+    .modal-box p {
+      font-size: 14px;
+      margin-bottom: 20px;
+      line-height: 1.4;
+    }
+
+    .modal-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .btn-modal-send {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      font-size: 13px;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .btn-modal-send:hover {
+      background-color: #218838;
+    }
+
+    .btn-modal-cancel {
+      background-color: #6c757d;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      font-size: 13px;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .btn-modal-cancel:hover {
+      background-color: #5a6268;
+    }
+
     @media print {
-      .action-bar { display: none; }
+      .action-bar, .modal-overlay { display: none; }
       body { padding: 0; background: white; }
       .page-container { border: none; box-shadow: none; width: 100%; }
     }
   </style>
 </head>
 <body>
-
-  <div class="action-bar">
-    <button class="btn-jpg" id="btn-submit" onclick="generujJPGiWyslij()">Pobierz JPG i wyślij E-mail</button>
-  </div>
 
   <div class="page-container" id="bon-pracy">
 
@@ -477,6 +539,22 @@
 
   </div>
 
+  <!-- Przeniesiony guzik na dół -->
+  <div class="action-bar">
+    <button class="btn-jpg" id="btn-submit" onclick="toonBevestigingModal()">JPG downloaden en e-mail verzenden</button>
+  </div>
+
+  <!-- Okienko dialogowe (Modal) -->
+  <div class="modal-overlay" id="confirm-modal">
+    <div class="modal-box">
+      <p>Voordat u het rapport verzendt, controleer of het volledig is ingevuld.</p>
+      <div class="modal-buttons">
+        <button class="btn-modal-send" onclick="bevestigEnVerzend()">Verzenden</button>
+        <button class="btn-modal-cancel" onclick="sluitModal()">Terug naar bewerken</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     const tbody = document.getElementById('tabela-pracownikow');
 
@@ -533,14 +611,27 @@
       }
     });
 
+    // Funkcje do obsługi okienka modalnego
+    function toonBevestigingModal() {
+      document.getElementById('confirm-modal').style.display = 'flex';
+    }
+
+    function sluitModal() {
+      document.getElementById('confirm-modal').style.display = 'none';
+    }
+
+    function bevestigEnVerzend() {
+      sluitModal();
+      generujJPGiWyslij();
+    }
+
     function generujJPGiWyslij() {
       const btn = document.getElementById('btn-submit');
-      btn.innerText = "Generowanie i wysyłanie...";
+      btn.innerText = "Genereren en verzenden...";
       btn.disabled = true;
 
       const element = document.getElementById('bon-pracy');
       
-      // Wyższa jakość (skala 2, jakość 0.85) dająca czytelny plik ok. 150-250 KB
       html2canvas(element, {
         scale: 2,
         backgroundColor: "#ffffff"
@@ -553,7 +644,7 @@
         link.href = imageBase64;
         link.click();
 
-        // Wysłanie obrazu w wysokiej rozdzielczości do EmailJS
+        // Wysłanie obrazu do EmailJS
         const templateParams = {
           content_jpg: imageBase64,
           opdrachtgever: document.getElementById('input-opdrachtgever')?.value || '-'
@@ -561,12 +652,12 @@
 
         emailjs.send('altrad', 'template_fk8w0nf', templateParams)
           .then(function(response) {
-             alert('Plik JPG został pobrany i pomyślnie wysłany e-mailem!');
-             btn.innerText = "Pobierz JPG i wyślij E-mail";
+             alert('Het JPG-bestand is gedownload en succesvol verzonden via e-mail!');
+             btn.innerText = "JPG downloaden en e-mail verzenden";
              btn.disabled = false;
           }, function(error) {
-             alert('Plik pobrany, ale wystąpił błąd EmailJS: ' + JSON.stringify(error));
-             btn.innerText = "Pobierz JPG i wyślij E-mail";
+             alert('Bestand gedownload, maar er is een fout opgetreden bij EmailJS: ' + JSON.stringify(error));
+             btn.innerText = "JPG downloaden en e-mail verzenden";
              btn.disabled = false;
           });
       });
