@@ -539,12 +539,10 @@
 
   </div>
 
-  <!-- Przeniesiony guzik na dół -->
   <div class="action-bar">
     <button class="btn-jpg" id="btn-submit" onclick="toonBevestigingModal()">JPG downloaden en e-mail verzenden</button>
   </div>
 
-  <!-- Okienko dialogowe (Modal) -->
   <div class="modal-overlay" id="confirm-modal">
     <div class="modal-box">
       <p>Voordat u het rapport verzendt, controleer of het volledig is ingevuld.</p>
@@ -611,7 +609,6 @@
       }
     });
 
-    // Funkcje do obsługi okienka modalnego
     function toonBevestigingModal() {
       document.getElementById('confirm-modal').style.display = 'flex';
     }
@@ -632,10 +629,7 @@
 
       const element = document.getElementById('bon-pracy');
       
-      // Pobieramy wartość z pola Steigernummer
       const steigernummerInput = document.getElementById('input-steigernummer')?.value.trim();
-      
-      // Tworzymy bezpieczną nazwę pliku (zamienia znaki niedozwolone w nazwach plików na myślniki)
       const czystaNazwa = steigernummerInput ? steigernummerInput.replace(/[/\\?%*:|"<>]/g, '-') : 'Regiebon_Altrad';
       const nazwaPliku = czystaNazwa + '.jpg';
 
@@ -645,17 +639,22 @@
       }).then(canvas => {
         const imageBase64 = canvas.toDataURL('image/jpeg', 0.85);
 
-        // Pobieranie kopii lokalnej pod nową nazwą
+        // Pobieranie kopii lokalnej
         const link = document.createElement('a');
         link.download = nazwaPliku;
         link.href = imageBase64;
         link.click();
 
-        // Wysłanie obrazu do EmailJS
+        // Przygotowanie danych do wysyłki EmailJS wraz z nazwą załącznika
         const templateParams = {
           content_jpg: imageBase64,
           opdrachtgever: document.getElementById('input-opdrachtgever')?.value || '-',
-          steigernummer: steigernummerInput || '-'
+          steigernummer: steigernummerInput || '-',
+          // Załącznik z dynamiczną nazwą pliku:
+          my_attachment: {
+            name: nazwaPliku,
+            data: imageBase64
+          }
         };
 
         emailjs.send('altrad', 'template_fk8w0nf', templateParams)
