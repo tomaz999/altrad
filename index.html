@@ -667,22 +667,24 @@
       }).then(canvas => {
         const imageBase64Full = canvas.toDataURL('image/jpeg', 0.85);
 
-        // Downloaden naar apparaat
+        // Download na urządzenie
         const link = document.createElement('a');
         link.download = nazwaPliku;
         link.href = imageBase64Full;
         link.click();
 
-        // Base64 string voor EmailJS
+        // Czysta zawartość Base64
         const pureBase64 = imageBase64Full.split(',')[1];
 
+        // Dane przekazywane do szablonu e-mail
         const templateParams = {
           content_jpg: pureBase64,
-          file_name: nazwaPliku,
+          file_name: nazwaPliku, // Użyj {{file_name}} w polu Subject w EmailJS
           opdrachtgever: document.getElementById('input-opdrachtgever')?.value || '-',
           steigernummer: steigernummerInput || '-'
         };
 
+        // Wysyłanie e-maila
         emailjs.send('altrad', 'template_fk8w0nf', templateParams)
           .then(function(response) {
              alert('Het JPG-bestand (' + nazwaPliku + ') is gedownload en succesvol verzonden via e-mail!');
