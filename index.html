@@ -252,7 +252,7 @@
       text-transform: uppercase;
     }
 
-    /* Modal / Okienko dialogowe */
+    /* Modal / Dialoogvenster */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -346,7 +346,7 @@
       <div class="info-block">
         <div class="field-group">
           <label>Opdrachtgever:</label>
-          <input type="text" id="input-opdrachtgever" list="baza-opdrachtgever" placeholder="Zacznij pisać lub wybierz z bazy...">
+          <input type="text" id="input-opdrachtgever" list="baza-opdrachtgever" placeholder="Begin met typen of kies uit de lijst...">
         </div>
         <div class="field-group">
           <label>Aangevraagd door:</label>
@@ -379,12 +379,12 @@
       </div>
     </div>
 
-    <!-- Sekcja 2-kolumnowa: Locatie + Type Werkzaamheden -->
+    <!-- 2-koloms sectie: Locatie + Type Werkzaamheden -->
     <div class="info-grid">
       <div>
         <div class="section-header">Locatie / Plaats</div>
         <div class="text-box" style="margin-bottom: 0;">
-          <input type="text" id="input-locatie" list="baza-locatie" placeholder="Zacznij pisać lub wybierz...">
+          <input type="text" id="input-locatie" list="baza-locatie" placeholder="Begin met typen of kies uit de lijst...">
         </div>
       </div>
       <div>
@@ -405,7 +405,7 @@
         type="text" 
         id="input-omschrijving" 
         list="baza-omschrijving" 
-        placeholder="Zacznij pisać opis prac lub wybierz z bazy..."
+        placeholder="Begin met typen van de omschrijving of kies uit de lijst..."
       >
     </div>
 
@@ -536,7 +536,7 @@
         <div class="signature-title">Akkoord Altrad</div>
         <div class="field-group">
           <label>Naam:</label>
-          <input type="text" id="input-altrad-naam" list="baza-altrad" placeholder="Wybierz osobę z bazy...">
+          <input type="text" id="input-altrad-naam" list="baza-altrad" placeholder="Kies een persoon uit de lijst...">
         </div>
         <div class="field-group">
           <label>Datum:</label>
@@ -547,7 +547,7 @@
         </div>
         <div class="field-group">
           <label>Handtekening:</label>
-          <input type="text" id="input-handtekening" placeholder="Imię i nazwisko / podpis">
+          <input type="text" id="input-handtekening" placeholder="Naam / Handtekening">
         </div>
       </div>
     </div>
@@ -576,10 +576,10 @@
       tr.innerHTML = `
         <td class="center">${i}</td>
         <td>
-          <input type="text" class="input-pracownik-naam" list="baza-pracownikow" placeholder="Nazwisko...">
+          <input type="text" class="input-pracownik-naam" list="baza-pracownikow" placeholder="Naam...">
         </td>
         <td>
-          <input type="text" class="input-pracownik-functie" list="baza-functie" placeholder="Stanowisko...">
+          <input type="text" class="input-pracownik-functie" list="baza-functie" placeholder="Functie...">
         </td>
         <td>
           <input type="number" class="num-input input-pracownik-uren" step="0.5" placeholder="0">
@@ -667,13 +667,13 @@
       }).then(canvas => {
         const imageBase64Full = canvas.toDataURL('image/jpeg', 0.85);
 
-        // Pobieranie pliku lokalnie
+        // Downloaden naar apparaat
         const link = document.createElement('a');
         link.download = nazwaPliku;
         link.href = imageBase64Full;
         link.click();
 
-        // Czysty ciąg Base64 do EmailJS
+        // Base64 string voor EmailJS
         const pureBase64 = imageBase64Full.split(',')[1];
 
         const templateParams = {
