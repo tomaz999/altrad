@@ -569,6 +569,20 @@
   </div>
 
   <script>
+    // --- Dynamiczna zmiana tytułu zakładki ---
+    const steigernummerInput = document.getElementById('input-steigernummer');
+    const domyslnyTytul = "Regiebon - ALTRAD Services Benelux";
+
+    steigernummerInput.addEventListener('input', function() {
+      const wartosc = this.value.trim();
+      if (wartosc) {
+        document.title = wartosc + " - Regiebon";
+      } else {
+        document.title = domyslnyTytul;
+      }
+    });
+
+    // --- Tabela pracowników ---
     const tbody = document.getElementById('tabela-pracownikow');
 
     for (let i = 1; i <= 12; i++) {
@@ -597,7 +611,6 @@
     // Obsługa wyboru z listy opcji bez doklejania starych wartości
     const inputOmschrijving = document.getElementById('input-omschrijving');
 
-    // Podwójne kliknięcie zaznacza cały tekst, co ułatwia jego natychmiastowe zastąpienie nowym wyborem lub pisaniem
     inputOmschrijving.addEventListener('focus', function() {
       this.select();
     });
@@ -622,14 +635,14 @@
 
       const element = document.getElementById('bon-pracy');
       
-      const steigernummerInput = document.getElementById('input-steigernummer')?.value.trim();
+      const steigernummerVal = document.getElementById('input-steigernummer')?.value.trim();
       const werkTypeSelected = document.querySelector('input[name="werk_type"]:checked')?.value || '';
 
       let nazwaBazowa = '';
-      if (steigernummerInput && werkTypeSelected) {
-        nazwaBazowa = `${steigernummerInput}_${werkTypeSelected}`;
-      } else if (steigernummerInput) {
-        nazwaBazowa = steigernummerInput;
+      if (steigernummerVal && werkTypeSelected) {
+        nazwaBazowa = `${steigernummerVal}_${werkTypeSelected}`;
+      } else if (steigernummerVal) {
+        nazwaBazowa = steigernummerVal;
       } else if (werkTypeSelected) {
         nazwaBazowa = `Regiebon_${werkTypeSelected}`;
       } else {
@@ -657,9 +670,9 @@
         // Dane przekazywane do szablonu e-mail
         const templateParams = {
           content_jpg: pureBase64,
-          file_name: nazwaPliku, // Użyj {{file_name}} w polu Subject w EmailJS
+          file_name: nazwaPliku,
           opdrachtgever: document.getElementById('input-opdrachtgever')?.value || '-',
-          steigernummer: steigernummerInput || '-'
+          steigernummer: steigernummerVal || '-'
         };
 
         // Wysyłanie e-maila
