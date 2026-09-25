@@ -594,36 +594,6 @@
       disableMobile: "true"
     });
 
-    const inputOmschrijving = document.getElementById('input-omschrijving');
-    let dotychczasowyTekst = '';
-
-    inputOmschrijving.addEventListener('focus', function() {
-      dotychczasowyTekst = this.value;
-      this.value = '';
-    });
-
-    inputOmschrijving.addEventListener('change', function() {
-      const nowoWybranaOpcja = this.value.trim();
-
-      if (nowoWybranaOpcja !== '') {
-        if (dotychczasowyTekst !== '') {
-          this.value = dotychczasowyTekst + ', ' + nowoWybranaOpcja;
-        } else {
-          this.value = nowoWybranaOpcja;
-        }
-      } else {
-        this.value = dotychczasowyTekst;
-      }
-      
-      dotychczasowyTekst = this.value;
-    });
-
-    inputOmschrijving.addEventListener('blur', function() {
-      if (this.value === '' && dotychczasowyTekst !== '') {
-        this.value = dotychczasowyTekst;
-      }
-    });
-
     function toonBevestigingModal() {
       document.getElementById('confirm-modal').style.display = 'flex';
     }
