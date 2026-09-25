@@ -594,6 +594,14 @@
       disableMobile: "true"
     });
 
+    // Obsługa wyboru z listy opcji bez doklejania starych wartości
+    const inputOmschrijving = document.getElementById('input-omschrijving');
+
+    // Podwójne kliknięcie zaznacza cały tekst, co ułatwia jego natychmiastowe zastąpienie nowym wyborem lub pisaniem
+    inputOmschrijving.addEventListener('focus', function() {
+      this.select();
+    });
+
     function toonBevestigingModal() {
       document.getElementById('confirm-modal').style.display = 'flex';
     }
