@@ -551,12 +551,22 @@
   </div>
 
   <script>
-    // --- Ochrona przed przypadkowym zamknięciem / odświeżeniem strony ---
+    // Flag do śledzenia zmian w formularzu
+    let isFormDirty = false;
+
+    // Wykrywanie wpisywania danych w dowolne pola
+    document.addEventListener('input', function() {
+      isFormDirty = true;
+    });
+
+    // Zdarzenie chroniące przed wyjściem ze strony
     window.addEventListener('beforeunload', function (e) {
-      const msg = 'Weet je zeker dat je deze pagina wilt verlaten? Niet-opslagen gegevens gaan mogelijk verloren.';
-      e.preventDefault();
-      e.returnValue = msg;
-      return msg;
+      if (isFormDirty) {
+        const msg = 'Weet je zeker dat je deze pagina wilt verlaten? Niet-opgeslagen gegevens gaan mogelijk verloren.';
+        e.preventDefault();
+        e.returnValue = msg;
+        return msg;
+      }
     });
 
     // --- Dynamiczna zmiana tytułu zakładki ---
@@ -598,7 +608,6 @@
       disableMobile: "true"
     });
 
-    // Obsługa wyboru z listy opcji bez doklejania starych wartości
     const inputOmschrijving = document.getElementById('input-omschrijving');
 
     inputOmschrijving.addEventListener('focus', function() {
@@ -619,6 +628,9 @@
     }
 
     function generujJPGiWyslij() {
+      // Wyłączenie blokady przed zamknięciem na czas wysyłania
+      isFormDirty = false;
+
       const btn = document.getElementById('btn-submit');
       btn.innerText = "Genereren en verzenden...";
       btn.disabled = true;
