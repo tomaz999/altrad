@@ -233,6 +233,13 @@
 
     .hours-table input.num-input {
       text-align: center;
+      cursor: pointer;
+    }
+
+    .hours-table input[type="checkbox"] {
+      cursor: pointer;
+      width: 16px;
+      height: 16px;
     }
 
     .single-signature-container {
@@ -318,8 +325,54 @@
       background-color: #5a6268;
     }
 
+    /* Klawiatura numeryczna Pop-up */
+    .num-pad-overlay {
+      display: none;
+      position: absolute;
+      background: #ffffff;
+      border: 2px solid #0056b3;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      padding: 10px;
+      z-index: 2000;
+      width: 180px;
+    }
+
+    .num-pad-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
+
+    .num-pad-btn {
+      background: #f0f0f0;
+      border: 1px solid #ccc;
+      padding: 10px 0;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .num-pad-btn:hover {
+      background: #0056b3;
+      color: white;
+    }
+
+    .num-pad-btn.btn-clear {
+      background: #dc3545;
+      color: white;
+    }
+
+    .num-pad-btn.btn-ok {
+      background: #28a745;
+      color: white;
+      grid-column: span 2;
+    }
+
     @media print {
-      .action-bar, .modal-overlay { display: none; }
+      .action-bar, .modal-overlay, .num-pad-overlay { display: none !important; }
       body { padding: 0; background: white; }
       .page-container { border: none; box-shadow: none; width: 100%; }
     }
@@ -415,8 +468,9 @@
         <tr>
           <th style="width: 30px;">Nr</th>
           <th>Naam Medewerker</th>
-          <th style="width: 180px;">Functie</th>
-          <th style="width: 100px;">Totaal Uren</th>
+          <th style="width: 160px;">Functie</th>
+          <th style="width: 90px;">Totaal Uren</th>
+          <th style="width: 50px;">OK</th>
         </tr>
       </thead>
       <tbody id="tabela-pracownikow">
@@ -550,16 +604,33 @@
     </div>
   </div>
 
-  <script>
-    // Flag do śledzenia zmian w formularzu
-    let isFormDirty = false;
+  <!-- Pop-up NumPad dla wprowadzania godzin -->
+  <div class="num-pad-overlay" id="numpad">
+    <div class="num-pad-grid">
+      <button type="button" class="num-pad-btn" onclick="addValue('7')">7</button>
+      <button type="button" class="num-pad-btn" onclick="addValue('8')">8</button>
+      <button type="button" class="num-pad-btn" onclick="addValue('9')">9</button>
+      <button type="button" class="num-pad-btn" onclick="addValue('4')">4</button>
+      <button type="button" class="num-pad-btn" onclick="addValue('5')">5</button>
+      <button type="button" class="num-pad-btn" onclick="addValue('6')">6</button>
+      <button type="button" class="num-pad-btn" onclick="addValue('1')">1</button>
+      <button type="button" class="num-pad-btn" onclick="addValue('2')">2</button>
+      <button type="button" class="num-pad-btn" onclick="addValue('3')">3</button>
+      <button type="button" class="num-pad-btn" onclick="addValue('0')">0</button>
+      <button type="button" class="num-pad-btn" onclick="addValue('.5')">.5</button>
+      <button type="button" class="num-pad-btn btn-clear" onclick="clearValue()">C</button>
+      <button type="button" class="num-pad-btn btn-ok" onclick="closeNumPad()">OK</button>
+    </div>
+  </div>
 
-    // Wykrywanie wpisywania danych w dowolne pola
+  <script>
+    let isFormDirty = false;
+    let activeInput = null;
+
     document.addEventListener('input', function() {
       isFormDirty = true;
     });
 
-    // Zdarzenie chroniące przed wyjściem ze strony
     window.addEventListener('beforeunload', function (e) {
       if (isFormDirty) {
         const msg = 'Weet je zeker dat je deze pagina wilt verlaten? Niet-opgeslagen gegevens gaan mogelijk verloren.';
@@ -582,7 +653,7 @@
       }
     });
 
-    // --- Tabela pracowników ---
+    // --- Tabela pracowników z checkboxem ---
     const tbody = document.getElementById('tabela-pracownikow');
 
     for (let i = 1; i <= 12; i++) {
@@ -596,7 +667,10 @@
           <input type="text" class="input-pracownik-functie" list="baza-functie" placeholder="Functie...">
         </td>
         <td>
-          <input type="number" class="num-input input-pracownik-uren" step="0.5" placeholder="0">
+          <input type="text" readonly class="num-input input-pracownik-uren" placeholder="0" onclick="showNumPad(this, event)">
+        </td>
+        <td class="center">
+          <input type="checkbox" title="Wprowadzono do systemu">
         </td>
       `;
       tbody.appendChild(tr);
@@ -609,9 +683,55 @@
     });
 
     const inputOmschrijving = document.getElementById('input-omschrijving');
-
     inputOmschrijving.addEventListener('focus', function() {
       this.select();
+    });
+
+    // --- Klawiatura Numeryczna (NumPad) logic ---
+    function showNumPad(inputEl, event) {
+      activeInput = inputEl;
+      const numpad = document.getElementById('numpad');
+      const rect = inputEl.getBoundingClientRect();
+      
+      numpad.style.top = (rect.bottom + window.scrollY + 5) + 'px';
+      numpad.style.left = (rect.left + window.scrollX - 40) + 'px';
+      numpad.style.display = 'block';
+      event.stopPropagation();
+    }
+
+    function addValue(val) {
+      if (activeInput) {
+        if (val === '.5') {
+          if (!activeInput.value.includes('.')) {
+            activeInput.value = (activeInput.value || '0') + '.5';
+          }
+        } else {
+          if (activeInput.value === '0') {
+            activeInput.value = val;
+          } else {
+            activeInput.value += val;
+          }
+        }
+        isFormDirty = true;
+      }
+    }
+
+    function clearValue() {
+      if (activeInput) {
+        activeInput.value = '';
+      }
+    }
+
+    function closeNumPad() {
+      document.getElementById('numpad').style.display = 'none';
+      activeInput = null;
+    }
+
+    document.addEventListener('click', function(e) {
+      const numpad = document.getElementById('numpad');
+      if (numpad.style.display === 'block' && !numpad.contains(e.target) && !e.target.classList.contains('input-pracownik-uren')) {
+        closeNumPad();
+      }
     });
 
     function toonBevestigingModal() {
@@ -628,7 +748,6 @@
     }
 
     function generujJPGiWyslij() {
-      // Wyłączenie blokady przed zamknięciem na czas wysyłania
       isFormDirty = false;
 
       const btn = document.getElementById('btn-submit');
@@ -660,16 +779,13 @@
       }).then(canvas => {
         const imageBase64Full = canvas.toDataURL('image/jpeg', 0.85);
 
-        // Download na urządzenie
         const link = document.createElement('a');
         link.download = nazwaPliku;
         link.href = imageBase64Full;
         link.click();
 
-        // Czysta zawartość Base64
         const pureBase64 = imageBase64Full.split(',')[1];
 
-        // Dane przekazywane do szablonu e-mail
         const templateParams = {
           content_jpg: pureBase64,
           file_name: nazwaPliku,
@@ -677,7 +793,6 @@
           steigernummer: steigernummerVal || '-'
         };
 
-        // Wysyłanie e-maila
         emailjs.send('altrad', 'template_fk8w0nf', templateParams)
           .then(function(response) {
              alert('Het JPG-bestand (' + nazwaPliku + ') is gedownload en succesvol verzonden via e-mail!');
