@@ -468,9 +468,10 @@
         <tr>
           <th style="width: 30px;">Nr</th>
           <th>Naam Medewerker</th>
-          <th style="width: 160px;">Functie</th>
-          <th style="width: 90px;">Totaal Uren</th>
-          <th style="width: 50px;">OK</th>
+          <th style="width: 150px;">Functie</th>
+          <th style="width: 80px;">Totaal Uren</th>
+          <th style="width: 80px;">OV Uren</th>
+          <th style="width: 40px;">OK</th>
         </tr>
       </thead>
       <tbody id="tabela-pracownikow">
@@ -565,7 +566,7 @@
       <option value="Sulewski Ł.">
       <option value="Smoleń N.">
       <option value="Obara T.">
-     </datalist>
+    </datalist>
 
     <div class="single-signature-container">
       <div class="signature-block">
@@ -669,6 +670,9 @@
         <td>
           <input type="text" readonly class="num-input input-pracownik-uren" placeholder="0" onclick="showNumPad(this, event)">
         </td>
+        <td>
+          <input type="text" readonly class="num-input input-pracownik-ov-uren" placeholder="0" onclick="showNumPad(this, event)">
+        </td>
         <td class="center">
           <input type="checkbox" title="Wprowadzono do systemu">
         </td>
@@ -729,7 +733,7 @@
 
     document.addEventListener('click', function(e) {
       const numpad = document.getElementById('numpad');
-      if (numpad.style.display === 'block' && !numpad.contains(e.target) && !e.target.classList.contains('input-pracownik-uren')) {
+      if (numpad.style.display === 'block' && !numpad.contains(e.target) && !e.target.classList.contains('num-input')) {
         closeNumPad();
       }
     });
