@@ -242,6 +242,23 @@
       height: 16px;
     }
 
+    /* Przycisk czyszczenia wiersza */
+    .btn-clear-row {
+      background: #dc3545;
+      color: white;
+      border: none;
+      border-radius: 3px;
+      padding: 1px 5px;
+      font-size: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      line-height: 12px;
+    }
+
+    .btn-clear-row:hover {
+      background: #bd2130;
+    }
+
     .single-signature-container {
       margin-top: 10px;
     }
@@ -372,7 +389,7 @@
     }
 
     @media print {
-      .action-bar, .modal-overlay, .num-pad-overlay { display: none !important; }
+      .action-bar, .modal-overlay, .num-pad-overlay, .btn-clear-row { display: none !important; }
       body { padding: 0; background: white; }
       .page-container { border: none; box-shadow: none; width: 100%; }
     }
@@ -466,6 +483,7 @@
     <table class="hours-table">
       <thead>
         <tr>
+          <th style="width: 25px;"></th>
           <th style="width: 30px;">Nr</th>
           <th>Naam Medewerker</th>
           <th style="width: 150px;">Functie</th>
@@ -654,12 +672,15 @@
       }
     });
 
-    // --- Tabela pracowników z checkboxem ---
+    // --- Tabela pracowników z checkboxem i przyciskiem czyszczenia ---
     const tbody = document.getElementById('tabela-pracownikow');
 
     for (let i = 1; i <= 12; i++) {
       const tr = document.createElement('tr');
       tr.innerHTML = `
+        <td class="center">
+          <button type="button" class="btn-clear-row" onclick="clearRow(this)" title="Wyczyść ten wiersz">✕</button>
+        </td>
         <td class="center">${i}</td>
         <td>
           <input type="text" class="input-pracownik-naam" list="baza-pracownikow" placeholder="Naam...">
@@ -678,6 +699,24 @@
         </td>
       `;
       tbody.appendChild(tr);
+    }
+
+    // Funkcja czyszcząca pojedynczy wiersz
+    function clearRow(button) {
+      const row = button.closest('tr');
+      const textInputs = row.querySelectorAll('input[type="text"]');
+      textInputs.forEach(input => {
+        if (input.classList.contains('num-input')) {
+          input.value = '';
+        } else {
+          input.value = '';
+        }
+      });
+      const checkbox = row.querySelector('input[type="checkbox"]');
+      if (checkbox) {
+        checkbox.checked = false;
+      }
+      isFormDirty = true;
     }
 
     flatpickr("#datum-input", {
