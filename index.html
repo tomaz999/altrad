@@ -1,664 +1,1719 @@
 <!DOCTYPE html>
+
 <html lang="nl">
+
 <head>
+
   <meta charset="UTF-8">
+
   <title>Regiebon - ALTRAD Services Benelux</title>
+
   
+
   <!-- Biblioteka html2canvas -->
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
   
+
   <!-- Biblioteka Flatpickr -->
+
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
+
+
   <!-- SDK EmailJS -->
+
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
   <script type="text/javascript">
+
     (function(){
+
       emailjs.init("cUVNja73rJnKEQB6A"); 
+
     })();
+
   </script>
 
+
+
   <style>
+
     body {
+
       font-family: Arial, sans-serif;
+
       background-color: #f4f4f4;
+
       margin: 0;
+
       padding: 20px;
+
       font-size: 12px;
+
     }
+
+
 
     .action-bar {
+
       max-width: 800px;
+
       margin: 20px auto 0 auto;
+
       text-align: center;
+
     }
+
+
 
     .btn-jpg {
+
       background-color: #0056b3;
+
       color: white;
+
       border: none;
+
       padding: 12px 24px;
+
       font-size: 14px;
+
       font-weight: bold;
+
       border-radius: 4px;
+
       cursor: pointer;
+
       box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+
     }
+
+
 
     .btn-jpg:hover {
+
       background-color: #003d80;
+
     }
+
+
 
     .page-container {
+
       background: white;
+
       width: 800px;
+
       margin: 0 auto;
+
       padding: 30px;
+
       box-sizing: border-box;
+
       border: 1px solid #ccc;
+
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
     }
+
+
 
     .header-table {
+
       width: 100%;
+
       border-collapse: collapse;
+
       margin-bottom: 15px;
+
     }
+
+
 
     .header-table td {
+
       vertical-align: top;
+
     }
+
+
 
     .logo-text {
+
       font-size: 24px;
+
       font-weight: bold;
+
       color: #000;
+
       letter-spacing: 1px;
+
     }
+
+
 
     .logo-sub {
+
       font-size: 10px;
+
       font-weight: bold;
+
       color: #555;
+
     }
+
+
 
     .title-box {
+
       text-align: right;
+
     }
+
+
 
     .title-box h1 {
+
       margin: 0;
+
       font-size: 20px;
+
       text-transform: uppercase;
+
       font-weight: bold;
+
     }
+
+
 
     .title-box p {
+
       margin: 2px 0 0 0;
+
       font-size: 11px;
+
       font-style: italic;
+
     }
+
+
 
     .info-grid {
+
       display: grid;
+
       grid-template-columns: 1fr 1fr;
+
       gap: 15px;
+
       margin-bottom: 15px;
+
     }
+
+
 
     .info-block {
+
       border: 1px solid #000;
+
       padding: 8px;
+
     }
+
+
 
     .field-group {
+
       display: flex;
+
       align-items: center;
+
       margin-bottom: 6px;
+
     }
+
+
 
     .field-group:last-child {
+
       margin-bottom: 0;
+
     }
+
+
 
     .field-group label {
+
       width: 130px;
+
       font-weight: bold;
+
     }
+
+
 
     .field-group input[type="text"] {
+
       flex: 1;
+
       border: none;
+
       border-bottom: 1px dotted #666;
+
       padding: 2px 5px;
+
       font-size: 11px;
+
       outline: none;
+
     }
+
+
 
     .radio-toggle {
+
       display: flex;
+
       gap: 10px;
+
       align-items: center;
+
     }
+
+
 
     .radio-toggle label {
+
       width: auto;
+
       font-weight: normal;
+
       cursor: pointer;
+
       display: flex;
+
       align-items: center;
+
       gap: 3px;
+
     }
+
+
 
     .radio-toggle input[type="radio"] {
+
       cursor: pointer;
+
       margin: 0;
+
     }
+
+
 
     .date-wrapper {
+
       flex: 1;
+
       display: flex;
+
       align-items: center;
+
       position: relative;
+
     }
+
+
 
     .date-wrapper input {
+
       width: 100%;
+
       background: transparent;
+
       cursor: pointer;
+
     }
+
+
 
     .date-icon {
+
       margin-left: -18px;
+
       cursor: pointer;
+
       pointer-events: none;
+
       font-size: 12px;
+
     }
+
+
 
     .section-header {
+
       background-color: #e0e0e0;
+
       border: 1px solid #000;
+
       border-bottom: none;
+
       padding: 4px 8px;
+
       font-weight: bold;
+
       text-transform: uppercase;
+
     }
+
+
 
     .text-box {
+
       border: 1px solid #000;
+
       margin-bottom: 15px;
+
       padding: 4px;
+
     }
+
+
 
     .text-box input {
+
       width: 100%;
+
       border: none;
+
       padding: 6px;
+
       box-sizing: border-box;
+
       font-family: Arial, sans-serif;
+
       font-size: 11px;
+
       outline: none;
+
     }
+
+
 
     .hours-table {
+
       width: 100%;
+
       border-collapse: collapse;
+
       margin-bottom: 15px;
+
     }
+
+
 
     .hours-table th, .hours-table td {
+
       border: 1px solid #000;
+
       padding: 4px 6px;
+
       text-align: left;
+
     }
+
+
 
     .hours-table th {
+
       background-color: #e0e0e0;
+
       font-size: 11px;
+
       text-align: center;
+
     }
+
+
 
     .hours-table td.center {
+
       text-align: center;
+
     }
+
+
 
     .hours-table input {
+
       width: 100%;
+
       border: none;
+
       outline: none;
+
       font-size: 11px;
+
       background: transparent;
+
     }
+
+
 
     .hours-table input.num-input {
+
       text-align: center;
+
       cursor: pointer;
+
     }
+
+
 
     .hours-table input[type="checkbox"] {
+
       cursor: pointer;
+
       width: 16px;
+
       height: 16px;
+
     }
+
+
 
     /* Przycisk czyszczenia wiersza */
+
     .btn-clear-row {
+
       background: #dc3545;
+
       color: white;
+
       border: none;
+
       border-radius: 3px;
+
       padding: 1px 5px;
+
       font-size: 10px;
+
       font-weight: bold;
+
       cursor: pointer;
+
       line-height: 12px;
+
     }
+
+
 
     .btn-clear-row:hover {
+
       background: #bd2130;
+
     }
 
-    .signatures-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
+
+
+    .single-signature-container {
+
       margin-top: 10px;
+
     }
+
+
 
     .signature-block {
+
       border: 1px solid #000;
+
       padding: 8px;
+
     }
+
+
 
     .signature-title {
+
       font-weight: bold;
+
       border-bottom: 1px solid #000;
+
       padding-bottom: 4px;
+
       margin-bottom: 8px;
+
       text-transform: uppercase;
+
     }
+
+
 
     /* Modal / Dialoogvenster */
+
     .modal-overlay {
+
       display: none;
+
       position: fixed;
+
       top: 0;
+
       left: 0;
+
       width: 100%;
+
       height: 100%;
+
       background: rgba(0, 0, 0, 0.5);
+
       justify-content: center;
+
       align-items: center;
+
       z-index: 1000;
+
     }
+
+
 
     .modal-box {
+
       background: white;
+
       padding: 20px 25px;
+
       border-radius: 6px;
+
       max-width: 420px;
+
       width: 90%;
+
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+
       text-align: center;
+
     }
+
+
 
     .modal-box p {
+
       font-size: 14px;
+
       margin-bottom: 20px;
+
       line-height: 1.4;
+
     }
+
+
 
     .modal-buttons {
+
       display: flex;
+
       justify-content: center;
+
       gap: 15px;
+
     }
+
+
 
     .btn-modal-send {
+
       background-color: #28a745;
+
       color: white;
+
       border: none;
+
       padding: 10px 18px;
+
       font-size: 13px;
+
       font-weight: bold;
+
       border-radius: 4px;
+
       cursor: pointer;
+
     }
+
+
 
     .btn-modal-send:hover {
+
       background-color: #218838;
+
     }
+
+
 
     .btn-modal-cancel {
+
       background-color: #6c757d;
+
       color: white;
+
       border: none;
+
       padding: 10px 18px;
+
       font-size: 13px;
+
       font-weight: bold;
+
       border-radius: 4px;
+
       cursor: pointer;
+
     }
+
+
 
     .btn-modal-cancel:hover {
+
       background-color: #5a6268;
+
     }
+
+
 
     /* Klawiatura numeryczna Pop-up */
+
     .num-pad-overlay {
+
       display: none;
+
       position: absolute;
+
       background: #ffffff;
+
       border: 2px solid #0056b3;
+
       border-radius: 8px;
+
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+
       padding: 10px;
+
       z-index: 2000;
+
       width: 180px;
+
     }
+
+
 
     .num-pad-grid {
+
       display: grid;
+
       grid-template-columns: repeat(3, 1fr);
+
       gap: 6px;
+
     }
+
+
 
     .num-pad-btn {
+
       background: #f0f0f0;
+
       border: 1px solid #ccc;
+
       padding: 10px 0;
+
       font-size: 14px;
+
       font-weight: bold;
+
       border-radius: 4px;
+
       cursor: pointer;
+
       text-align: center;
+
     }
+
+
 
     .num-pad-btn:hover {
+
       background: #0056b3;
+
       color: white;
+
     }
+
+
 
     .num-pad-btn.btn-clear {
+
       background: #dc3545;
+
       color: white;
+
     }
+
+
 
     .num-pad-btn.btn-ok {
+
       background: #28a745;
+
       color: white;
+
       grid-column: span 2;
+
     }
 
+
+
     @media print {
+
       .action-bar, .modal-overlay, .num-pad-overlay, .btn-clear-row { display: none !important; }
+
       body { padding: 0; background: white; }
+
       .page-container { border: none; box-shadow: none; width: 100%; }
+
     }
+
   </style>
+
 </head>
+
 <body>
+
+
 
   <div class="page-container" id="bon-pracy">
 
+
+
     <table class="header-table">
+
       <tr>
+
         <td>
+
           <div class="logo-text">ALTRAD</div>
+
           <div class="logo-sub">SERVICES BENELUX</div>
+
         </td>
+
         <td class="title-box">
+
           <h1>REGIEBON</h1>
+
           <p>Dagrapport Regiewerkzaamheden (1 Dag)</p>
+
         </td>
+
       </tr>
+
     </table>
 
+
+
     <div class="info-grid">
-      <div class="info-block">
-        <div class="field-group">
-          <label>Opdrachtgever:</label>
-          <input type="text" id="input-opdrachtgever" list="baza-opdrachtgever" placeholder="Begin met typen of kies uit de lijst...">
-        </div>
-        <div class="field-group">
-          <label>Aangevraagd door:</label>
-          <input type="text" id="input-aangevraagd">
-        </div>
-        <div class="field-group" style="margin-top: 8px;">
-          <label></label>
-          <div class="radio-toggle">
-            <label><input type="radio" name="aangevraagd_optie" value="Ho6" checked> Ho6</label>
-            <label><input type="radio" name="aangevraagd_optie" value="Ho7"> Ho7</label>
-            <label><input type="radio" name="aangevraagd_optie" value="KMG"> KMG</label>
-            <label><input type="radio" name="aangevraagd_optie" value="WR"> WR</label>
-          </div>
-        </div>
-      </div>
 
       <div class="info-block">
+
         <div class="field-group">
-          <label>Opdrachtnummer:</label>
-          <input type="text" id="input-opdrachtnummer">
+
+          <label>Opdrachtgever:</label>
+
+          <input type="text" id="input-opdrachtgever" list="baza-opdrachtgever" placeholder="Begin met typen of kies uit de lijst...">
+
         </div>
+
         <div class="field-group">
-          <label>Projectnummer:</label>
-          <input type="text" id="input-projectnummer">
+
+          <label>Aangevraagd door:</label>
+
+          <input type="text" id="input-aangevraagd">
+
         </div>
-        <div class="field-group">
-          <label>Steigernummer:</label>
-          <input type="text" id="input-steigernummer">
+
+        <div class="field-group" style="margin-top: 8px;">
+
+          <label></label>
+
+          <div class="radio-toggle">
+
+            <label><input type="radio" name="aangevraagd_optie" value="Ho6" checked> Ho6</label>
+
+            <label><input type="radio" name="aangevraagd_optie" value="Ho7"> Ho7</label>
+
+            <label><input type="radio" name="aangevraagd_optie" value="KMG"> KMG</label>
+
+            <label><input type="radio" name="aangevraagd_optie" value="WR"> WR</label>
+
+          </div>
+
         </div>
+
       </div>
+
+
+
+      <div class="info-block">
+
+        <div class="field-group">
+
+          <label>Opdrachtnummer:</label>
+
+          <input type="text" id="input-opdrachtnummer">
+
+        </div>
+
+        <div class="field-group">
+
+          <label>Projectnummer:</label>
+
+          <input type="text" id="input-projectnummer">
+
+        </div>
+
+        <div class="field-group">
+
+          <label>Steigernummer:</label>
+
+          <input type="text" id="input-steigernummer">
+
+        </div>
+
+      </div>
+
     </div>
+
+
 
     <!-- 2-koloms sectie: Locatie + Type Werkzaamheden -->
+
     <div class="info-grid">
+
       <div>
+
         <div class="section-header">Locatie / Plaats</div>
+
         <div class="text-box" style="margin-bottom: 0;">
+
           <input type="text" id="input-locatie" list="baza-locatie" placeholder="Begin met typen of kies uit de lijst...">
+
         </div>
+
       </div>
+
       <div>
+
         <div class="section-header">Type Werkzaamheden</div>
+
         <div class="text-box" style="margin-bottom: 0; padding: 6px 8px;">
+
           <div class="radio-toggle" style="height: 19px;">
+
             <label><input type="radio" name="werk_type" value="Montage" checked> Montage</label>
+
             <label><input type="radio" name="werk_type" value="Demontage"> Demontage</label>
+
             <label><input type="radio" name="werk_type" value="Aanpassing"> Aanpassing</label>
+
           </div>
+
         </div>
+
       </div>
+
     </div>
+
+
 
     <div class="section-header" style="margin-top: 15px;">Omschrijving Regiewerkzaamheden</div>
+
     <div class="text-box">
+
       <input 
+
         type="text" 
+
         id="input-omschrijving" 
+
         list="baza-omschrijving" 
+
         placeholder="Begin met typen van de omschrijving of kies uit de lijst..."
+
       >
+
     </div>
+
+
 
     <div class="section-header" style="border-bottom: 1px solid #000;">Personeel / Urenspecificatie</div>
+
     <table class="hours-table">
+
       <thead>
+
         <tr>
+
           <th style="width: 25px;"></th>
+
           <th style="width: 30px;">Nr</th>
+
           <th>Naam Medewerker</th>
+
           <th style="width: 150px;">Functie</th>
+
           <th style="width: 80px;">Totaal Uren</th>
+
           <th style="width: 80px;">OV Uren</th>
+
           <th style="width: 40px;">OK</th>
+
         </tr>
+
       </thead>
+
       <tbody id="tabela-pracownikow">
+
       </tbody>
+
     </table>
 
+
+
     <datalist id="baza-opdrachtgever">
+
       <option value="Benno Buter">
+
       <option value="Bob van Vliet">
+
       <option value="Dennis Kruidenberg">
+
       <option value="Dion Snoek">
+
       <option value="Evert Bakker">
+
       <option value="Fabian Schoutsen">
+
       <option value="Frank Bobring">
+
       <option value="Frank de Blok">
+
       <option value="Jan van Duinen">
+
       <option value="Jelmer Dik">
+
       <option value="Jeroen Groh">
+
       <option value="Jochen Bruil">
+
       <option value="Jos Smit">
+
       <option value="Kai Swier">
+
       <option value="Kevin Bus">
+
       <option value="Marcel Hoogeland">
+
       <option value="Marco van Poecke">
+
       <option value="Mario van de Kamp">
+
       <option value="Mart Commadeur">
+
       <option value="Martin Panther">
+
       <option value="Menno Bakker">
+
       <option value="Nick Stierp">
+
       <option value="Nils de Wit">
+
       <option value="Pascal Beljaars">
+
       <option value="Remco Zwagers">
+
       <option value="Richard van Donselaar">
+
       <option value="Rob Beentjes">
+
       <option value="Robbie Baanders">
+
       <option value="Rory van Krimpen">
+
       <option value="Sander Mantel">
+
       <option value="Sem van Maren">
+
       <option value="Sjoerd Harmsen">
+
       <option value="Theo Dubbelman">
+
     </datalist>
+
+
 
     <datalist id="baza-locatie">
+
       <option value="100 Bunkergebouw">
+
       <option value="200 Hellende lift">
+
       <option value="300 Oventop">
+
       <option value="400 Oven">
+
       <option value="500 Ovenhuis">
+
       <option value="600 Granulatie">
+
       <option value="610 Brakwaterpompstation">
+
       <option value="700 Gasreiniging">
+
       <option value="800 Windverhitters">
+
       <option value="900 Algemeen">
+
       <option value="KMG">
+
     </datalist>
+
+
 
     <datalist id="baza-omschrijving">
+
       <option value="Montage">
+
       <option value="Montage+Verankeren">
+
       <option value="Wacht tijd lift">
+
       <option value="Montage+Horizontale transport">
+
       <option value="Demontage+opruimen sorteren">
+
       <option value="Material Transport">
+
     </datalist>
+
+
 
     <datalist id="baza-functie">
+
       <option value="Voorman">
+
       <option value="Monteur">
+
     </datalist>
+
+
 
     <datalist id="baza-altrad">
+
       <option value="Paweł Wysokiński">
+
       <option value="Jurjen Adamson">
+
       <option value="Tomasz Rusiecki">
+
     </datalist>
+
+
 
     <datalist id="baza-pracownikow">
+
       <option value="Wysokiński P.">
+
       <option value="Adamson J.">
+
       <option value="Lis S.">
+
       <option value="Rusiecki T.">
+
       <option value="Abubakirov A.">
+
       <option value="Adamczyk Ł.">
+
       <option value="Brzeski D.">
+
       <option value="Brzeski Ł.">
+
       <option value="Brzeski M.">
-      <option value="Gebicz R.">
+
       <option value="Ismayilov U.">
+
       <option value="Karczewski M.">
+
       <option value="Khanmammadov I.">
+
       <option value="Kohnert P.">
+
       <option value="Kubiak K.">
+
       <option value="Kubiak T.">
+
       <option value="Matusiak D.">
+
       <option value="Nitoiu F.">
+
       <option value="Nowak T.">
+
       <option value="Obara T.">
+
       <option value="Przyborowski S.">
+
       <option value="Shabiyen N.">
+
       <option value="Sulewski Ł.">
+
       <option value="Temirov D.">
+
       <option value="Zholymbetov M.">  
+
     </datalist>
 
-    <!-- Podpisy (Altrad oraz Opdrachtgever) -->
-    <div class="signatures-grid">
-      <!-- Blok podpisu Altrad -->
+
+
+    <div class="single-signature-container">
+
       <div class="signature-block">
+
         <div class="signature-title">Akkoord Altrad</div>
+
         <div class="field-group">
+
           <label>Naam:</label>
+
           <input type="text" id="input-altrad-naam" list="baza-altrad" placeholder="Kies een persoon uit de lijst...">
+
         </div>
+
         <div class="field-group">
+
           <label>Datum:</label>
+
           <div class="date-wrapper">
-            <input type="text" id="datum-input-altrad" placeholder="DD/MM/YYYY">
+
+            <input type="text" id="datum-input" placeholder="DD/MM/YYYY">
+
             <span class="date-icon">📅</span>
+
           </div>
+
         </div>
+
         <div class="field-group">
+
           <label>Handtekening:</label>
-          <input type="text" id="input-handtekening-altrad" placeholder="Naam / Handtekening">
+
+          <input type="text" id="input-handtekening" placeholder="Naam / Handtekening">
+
         </div>
+
       </div>
 
-      <!-- Blok podpisu Opdrachtgever -->
-      <div class="signature-block">
-        <div class="signature-title">Akkoord Opdrachtgever</div>
-        <div class="field-group">
-          <label>Naam:</label>
-          <input type="text" id="input-opdrachtgever-naam" placeholder="Naam opdrachtgever...">
-        </div>
-        <div class="field-group">
-          <label>Datum:</label>
-          <div class="date-wrapper">
-            <input type="text" id="datum-input-opdrachtgever" placeholder="DD/MM/YYYY">
-            <span class="date-icon">📅</span>
-          </div>
-        </div>
-        <div class="field-group">
-          <label>Handtekening:</label>
-          <input type="text" id="input-handtekening-opdrachtgever" placeholder="Naam / Handtekening">
-        </div>
-      </div>
     </div>
 
+
+
   </div>
+
+
 
   <div class="action-bar">
+
     <button class="btn-jpg" id="btn-submit" onclick="toonBevestigingModal()">JPG downloaden en e-mail verzenden</button>
+
   </div>
+
+
 
   <div class="modal-overlay" id="confirm-modal">
+
     <div class="modal-box">
+
       <p>Voordat u het rapport verzendt, controleer of het volledig is ingevuld.</p>
+
       <div class="modal-buttons">
+
         <button class="btn-modal-send" onclick="bevestigEnVerzend()">Verzenden</button>
+
         <button class="btn-modal-cancel" onclick="sluitModal()">Terug naar bewerken</button>
+
       </div>
+
     </div>
+
   </div>
 
+
+
   <!-- Pop-up NumPad dla wprowadzania godzin -->
+
   <div class="num-pad-overlay" id="numpad">
+
     <div class="num-pad-grid">
+
       <button type="button" class="num-pad-btn" onclick="addValue('7')">7</button>
+
       <button type="button" class="num-pad-btn" onclick="addValue('8')">8</button>
-      <button type="button" class
+
+      <button type="button" class="num-pad-btn" onclick="addValue('9')">9</button>
+
+      <button type="button" class="num-pad-btn" onclick="addValue('4')">4</button>
+
+      <button type="button" class="num-pad-btn" onclick="addValue('5')">5</button>
+
+      <button type="button" class="num-pad-btn" onclick="addValue('6')">6</button>
+
+      <button type="button" class="num-pad-btn" onclick="addValue('1')">1</button>
+
+      <button type="button" class="num-pad-btn" onclick="addValue('2')">2</button>
+
+      <button type="button" class="num-pad-btn" onclick="addValue('3')">3</button>
+
+      <button type="button" class="num-pad-btn" onclick="addValue('0')">0</button>
+
+      <button type="button" class="num-pad-btn" onclick="addValue('.5')">.5</button>
+
+      <button type="button" class="num-pad-btn btn-clear" onclick="clearValue()">C</button>
+
+      <button type="button" class="num-pad-btn btn-ok" onclick="closeNumPad()">OK</button>
+
+    </div>
+
+  </div>
+
+
+
+  <script>
+
+    let isFormDirty = false;
+
+    let activeInput = null;
+
+
+
+    document.addEventListener('input', function() {
+
+      isFormDirty = true;
+
+    });
+
+
+
+    window.addEventListener('beforeunload', function (e) {
+
+      if (isFormDirty) {
+
+        const msg = 'Weet je zeker dat je deze pagina wilt verlaten? Niet-opgeslagen gegevens gaan mogelijk verloren.';
+
+        e.preventDefault();
+
+        e.returnValue = msg;
+
+        return msg;
+
+      }
+
+    });
+
+
+
+    // --- Dynamiczna zmiana tytułu zakładki ---
+
+    const steigernummerInput = document.getElementById('input-steigernummer');
+
+    const domyslnyTytul = "Regiebon - ALTRAD Services Benelux";
+
+
+
+    steigernummerInput.addEventListener('input', function() {
+
+      const wartosc = this.value.trim();
+
+      if (wartosc) {
+
+        document.title = wartosc + " - Regiebon";
+
+      } else {
+
+        document.title = domyslnyTytul;
+
+      }
+
+    });
+
+
+
+    // --- Tabela pracowników z checkboxem i przyciskiem czyszczenia ---
+
+    const tbody = document.getElementById('tabela-pracownikow');
+
+
+
+    for (let i = 1; i <= 12; i++) {
+
+      const tr = document.createElement('tr');
+
+      tr.innerHTML = `
+
+        <td class="center">
+
+          <button type="button" class="btn-clear-row" onclick="clearRow(this)" title="Wyczyść ten wiersz">✕</button>
+
+        </td>
+
+        <td class="center">${i}</td>
+
+        <td>
+
+          <input type="text" class="input-pracownik-naam" list="baza-pracownikow" placeholder="Naam...">
+
+        </td>
+
+        <td>
+
+          <input type="text" class="input-pracownik-functie" list="baza-functie" placeholder="Functie...">
+
+        </td>
+
+        <td>
+
+          <input type="text" readonly class="num-input input-pracownik-uren" placeholder="0" onclick="showNumPad(this, event)">
+
+        </td>
+
+        <td>
+
+          <input type="text" readonly class="num-input input-pracownik-ov-uren" placeholder="0" onclick="showNumPad(this, event)">
+
+        </td>
+
+        <td class="center">
+
+          <input type="checkbox" title="Wprowadzono do systemu">
+
+        </td>
+
+      `;
+
+      tbody.appendChild(tr);
+
+    }
+
+
+
+    // Funkcja czyszcząca pojedynczy wiersz
+
+    function clearRow(button) {
+
+      const row = button.closest('tr');
+
+      const textInputs = row.querySelectorAll('input[type="text"]');
+
+      textInputs.forEach(input => {
+
+        if (input.classList.contains('num-input')) {
+
+          input.value = '';
+
+        } else {
+
+          input.value = '';
+
+        }
+
+      });
+
+      const checkbox = row.querySelector('input[type="checkbox"]');
+
+      if (checkbox) {
+
+        checkbox.checked = false;
+
+      }
+
+      isFormDirty = true;
+
+    }
+
+
+
+    flatpickr("#datum-input", {
+
+      dateFormat: "d/m/Y",
+
+      defaultDate: "today",
+
+      disableMobile: "true"
+
+    });
+
+
+
+    const inputOmschrijving = document.getElementById('input-omschrijving');
+
+    inputOmschrijving.addEventListener('focus', function() {
+
+      this.select();
+
+    });
+
+
+
+    // --- Klawiatura Numeryczna (NumPad) logic ---
+
+    function showNumPad(inputEl, event) {
+
+      activeInput = inputEl;
+
+      const numpad = document.getElementById('numpad');
+
+      const rect = inputEl.getBoundingClientRect();
+
+      
+
+      numpad.style.top = (rect.bottom + window.scrollY + 5) + 'px';
+
+      numpad.style.left = (rect.left + window.scrollX - 40) + 'px';
+
+      numpad.style.display = 'block';
+
+      event.stopPropagation();
+
+    }
+
+
+
+    function addValue(val) {
+
+      if (activeInput) {
+
+        if (val === '.5') {
+
+          if (!activeInput.value.includes('.')) {
+
+            activeInput.value = (activeInput.value || '0') + '.5';
+
+          }
+
+        } else {
+
+          if (activeInput.value === '0') {
+
+            activeInput.value = val;
+
+          } else {
+
+            activeInput.value += val;
+
+          }
+
+        }
+
+        isFormDirty = true;
+
+      }
+
+    }
+
+
+
+    function clearValue() {
+
+      if (activeInput) {
+
+        activeInput.value = '';
+
+      }
+
+    }
+
+
+
+    function closeNumPad() {
+
+      document.getElementById('numpad').style.display = 'none';
+
+      activeInput = null;
+
+    }
+
+
+
+    document.addEventListener('click', function(e) {
+
+      const numpad = document.getElementById('numpad');
+
+      if (numpad.style.display === 'block' && !numpad.contains(e.target) && !e.target.classList.contains('num-input')) {
+
+        closeNumPad();
+
+      }
+
+    });
+
+
+
+    function toonBevestigingModal() {
+
+      document.getElementById('confirm-modal').style.display = 'flex';
+
+    }
+
+
+
+    function sluitModal() {
+
+      document.getElementById('confirm-modal').style.display = 'none';
+
+    }
+
+
+
+    function bevestigEnVerzend() {
+
+      sluitModal();
+
+      generujJPGiWyslij();
+
+    }
+
+
+
+    function generujJPGiWyslij() {
+
+      isFormDirty = false;
+
+
+
+      const btn = document.getElementById('btn-submit');
+
+      btn.innerText = "Genereren en verzenden...";
+
+      btn.disabled = true;
+
+
+
+      const element = document.getElementById('bon-pracy');
+
+      
+
+      const steigernummerVal = document.getElementById('input-steigernummer')?.value.trim();
+
+      const werkTypeSelected = document.querySelector('input[name="werk_type"]:checked')?.value || '';
+
+
+
+      let nazwaBazowa = '';
+
+      if (steigernummerVal && werkTypeSelected) {
+
+        nazwaBazowa = `${steigernummerVal}_${werkTypeSelected}`;
+
+      } else if (steigernummerVal) {
+
+        nazwaBazowa = steigernummerVal;
+
+      } else if (werkTypeSelected) {
+
+        nazwaBazowa = `Regiebon_${werkTypeSelected}`;
+
+      } else {
+
+        nazwaBazowa = 'Regiebon_Altrad';
+
+      }
+
+
+
+      const czystaNazwa = nazwaBazowa.replace(/[/\\?%*:|"<>]/g, '-');
+
+      const nazwaPliku = czystaNazwa + '.jpg';
+
+
+
+      html2canvas(element, {
+
+        scale: 2,
+
+        backgroundColor: "#ffffff"
+
+      }).then(canvas => {
+
+        const imageBase64Full = canvas.toDataURL('image/jpeg', 0.85);
+
+
+
+        const link = document.createElement('a');
+
+        link.download = nazwaPliku;
+
+        link.href = imageBase64Full;
+
+        link.click();
+
+
+
+        const pureBase64 = imageBase64Full.split(',')[1];
+
+
+
+        const templateParams = {
+
+          content_jpg: pureBase64,
+
+          file_name: nazwaPliku,
+
+          opdrachtgever: document.getElementById('input-opdrachtgever')?.value || '-',
+
+          steigernummer: steigernummerVal || '-'
+
+        };
+
+
+
+        emailjs.send('altrad', 'template_fk8w0nf', templateParams)
+
+          .then(function(response) {
+
+             alert('Het JPG-bestand (' + nazwaPliku + ') is gedownload en succesvol verzonden via e-mail!');
+
+             btn.innerText = "JPG downloaden en e-mail verzenden";
+
+             btn.disabled = false;
+
+          }, function(error) {
+
+             alert('Bestand gedownload, maar er is een fout opgetreden bij EmailJS: ' + JSON.stringify(error));
+
+             btn.innerText = "JPG downloaden en e-mail verzenden";
+
+             btn.disabled = false;
+
+          });
+
+      });
+
+    }
+
+  </script>
+
+</body>
+
+</html> 
