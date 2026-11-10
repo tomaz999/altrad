@@ -259,7 +259,10 @@
       background: #bd2130;
     }
 
-    .single-signature-container {
+    .signatures-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
       margin-top: 10px;
     }
 
@@ -593,7 +596,9 @@
       <option value="Zholymbetov M.">  
     </datalist>
 
-    <div class="single-signature-container">
+    <!-- Podpisy (Altrad oraz Opdrachtgever) -->
+    <div class="signatures-grid">
+      <!-- Blok podpisu Altrad -->
       <div class="signature-block">
         <div class="signature-title">Akkoord Altrad</div>
         <div class="field-group">
@@ -603,13 +608,33 @@
         <div class="field-group">
           <label>Datum:</label>
           <div class="date-wrapper">
-            <input type="text" id="datum-input" placeholder="DD/MM/YYYY">
+            <input type="text" id="datum-input-altrad" placeholder="DD/MM/YYYY">
             <span class="date-icon">📅</span>
           </div>
         </div>
         <div class="field-group">
           <label>Handtekening:</label>
-          <input type="text" id="input-handtekening" placeholder="Naam / Handtekening">
+          <input type="text" id="input-handtekening-altrad" placeholder="Naam / Handtekening">
+        </div>
+      </div>
+
+      <!-- Blok podpisu Opdrachtgever -->
+      <div class="signature-block">
+        <div class="signature-title">Akkoord Opdrachtgever</div>
+        <div class="field-group">
+          <label>Naam:</label>
+          <input type="text" id="input-opdrachtgever-naam" placeholder="Naam opdrachtgever...">
+        </div>
+        <div class="field-group">
+          <label>Datum:</label>
+          <div class="date-wrapper">
+            <input type="text" id="datum-input-opdrachtgever" placeholder="DD/MM/YYYY">
+            <span class="date-icon">📅</span>
+          </div>
+        </div>
+        <div class="field-group">
+          <label>Handtekening:</label>
+          <input type="text" id="input-handtekening-opdrachtgever" placeholder="Naam / Handtekening">
         </div>
       </div>
     </div>
@@ -635,226 +660,4 @@
     <div class="num-pad-grid">
       <button type="button" class="num-pad-btn" onclick="addValue('7')">7</button>
       <button type="button" class="num-pad-btn" onclick="addValue('8')">8</button>
-      <button type="button" class="num-pad-btn" onclick="addValue('9')">9</button>
-      <button type="button" class="num-pad-btn" onclick="addValue('4')">4</button>
-      <button type="button" class="num-pad-btn" onclick="addValue('5')">5</button>
-      <button type="button" class="num-pad-btn" onclick="addValue('6')">6</button>
-      <button type="button" class="num-pad-btn" onclick="addValue('1')">1</button>
-      <button type="button" class="num-pad-btn" onclick="addValue('2')">2</button>
-      <button type="button" class="num-pad-btn" onclick="addValue('3')">3</button>
-      <button type="button" class="num-pad-btn" onclick="addValue('0')">0</button>
-      <button type="button" class="num-pad-btn" onclick="addValue('.5')">.5</button>
-      <button type="button" class="num-pad-btn btn-clear" onclick="clearValue()">C</button>
-      <button type="button" class="num-pad-btn btn-ok" onclick="closeNumPad()">OK</button>
-    </div>
-  </div>
-
-  <script>
-    let isFormDirty = false;
-    let activeInput = null;
-
-    document.addEventListener('input', function() {
-      isFormDirty = true;
-    });
-
-    window.addEventListener('beforeunload', function (e) {
-      if (isFormDirty) {
-        const msg = 'Weet je zeker dat je deze pagina wilt verlaten? Niet-opgeslagen gegevens gaan mogelijk verloren.';
-        e.preventDefault();
-        e.returnValue = msg;
-        return msg;
-      }
-    });
-
-    // --- Dynamiczna zmiana tytułu zakładki ---
-    const steigernummerInput = document.getElementById('input-steigernummer');
-    const domyslnyTytul = "Regiebon - ALTRAD Services Benelux";
-
-    steigernummerInput.addEventListener('input', function() {
-      const wartosc = this.value.trim();
-      if (wartosc) {
-        document.title = wartosc + " - Regiebon";
-      } else {
-        document.title = domyslnyTytul;
-      }
-    });
-
-    // --- Tabela pracowników z checkboxem i przyciskiem czyszczenia ---
-    const tbody = document.getElementById('tabela-pracownikow');
-
-    for (let i = 1; i <= 12; i++) {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td class="center">
-          <button type="button" class="btn-clear-row" onclick="clearRow(this)" title="Wyczyść ten wiersz">✕</button>
-        </td>
-        <td class="center">${i}</td>
-        <td>
-          <input type="text" class="input-pracownik-naam" list="baza-pracownikow" placeholder="Naam...">
-        </td>
-        <td>
-          <input type="text" class="input-pracownik-functie" list="baza-functie" placeholder="Functie...">
-        </td>
-        <td>
-          <input type="text" readonly class="num-input input-pracownik-uren" placeholder="0" onclick="showNumPad(this, event)">
-        </td>
-        <td>
-          <input type="text" readonly class="num-input input-pracownik-ov-uren" placeholder="0" onclick="showNumPad(this, event)">
-        </td>
-        <td class="center">
-          <input type="checkbox" title="Wprowadzono do systemu">
-        </td>
-      `;
-      tbody.appendChild(tr);
-    }
-
-    // Funkcja czyszcząca pojedynczy wiersz
-    function clearRow(button) {
-      const row = button.closest('tr');
-      const textInputs = row.querySelectorAll('input[type="text"]');
-      textInputs.forEach(input => {
-        if (input.classList.contains('num-input')) {
-          input.value = '';
-        } else {
-          input.value = '';
-        }
-      });
-      const checkbox = row.querySelector('input[type="checkbox"]');
-      if (checkbox) {
-        checkbox.checked = false;
-      }
-      isFormDirty = true;
-    }
-
-    flatpickr("#datum-input", {
-      dateFormat: "d/m/Y",
-      defaultDate: "today",
-      disableMobile: "true"
-    });
-
-    const inputOmschrijving = document.getElementById('input-omschrijving');
-    inputOmschrijving.addEventListener('focus', function() {
-      this.select();
-    });
-
-    // --- Klawiatura Numeryczna (NumPad) logic ---
-    function showNumPad(inputEl, event) {
-      activeInput = inputEl;
-      const numpad = document.getElementById('numpad');
-      const rect = inputEl.getBoundingClientRect();
-      
-      numpad.style.top = (rect.bottom + window.scrollY + 5) + 'px';
-      numpad.style.left = (rect.left + window.scrollX - 40) + 'px';
-      numpad.style.display = 'block';
-      event.stopPropagation();
-    }
-
-    function addValue(val) {
-      if (activeInput) {
-        if (val === '.5') {
-          if (!activeInput.value.includes('.')) {
-            activeInput.value = (activeInput.value || '0') + '.5';
-          }
-        } else {
-          if (activeInput.value === '0') {
-            activeInput.value = val;
-          } else {
-            activeInput.value += val;
-          }
-        }
-        isFormDirty = true;
-      }
-    }
-
-    function clearValue() {
-      if (activeInput) {
-        activeInput.value = '';
-      }
-    }
-
-    function closeNumPad() {
-      document.getElementById('numpad').style.display = 'none';
-      activeInput = null;
-    }
-
-    document.addEventListener('click', function(e) {
-      const numpad = document.getElementById('numpad');
-      if (numpad.style.display === 'block' && !numpad.contains(e.target) && !e.target.classList.contains('num-input')) {
-        closeNumPad();
-      }
-    });
-
-    function toonBevestigingModal() {
-      document.getElementById('confirm-modal').style.display = 'flex';
-    }
-
-    function sluitModal() {
-      document.getElementById('confirm-modal').style.display = 'none';
-    }
-
-    function bevestigEnVerzend() {
-      sluitModal();
-      generujJPGiWyslij();
-    }
-
-    function generujJPGiWyslij() {
-      isFormDirty = false;
-
-      const btn = document.getElementById('btn-submit');
-      btn.innerText = "Genereren en verzenden...";
-      btn.disabled = true;
-
-      const element = document.getElementById('bon-pracy');
-      
-      const steigernummerVal = document.getElementById('input-steigernummer')?.value.trim();
-      const werkTypeSelected = document.querySelector('input[name="werk_type"]:checked')?.value || '';
-
-      let nazwaBazowa = '';
-      if (steigernummerVal && werkTypeSelected) {
-        nazwaBazowa = `${steigernummerVal}_${werkTypeSelected}`;
-      } else if (steigernummerVal) {
-        nazwaBazowa = steigernummerVal;
-      } else if (werkTypeSelected) {
-        nazwaBazowa = `Regiebon_${werkTypeSelected}`;
-      } else {
-        nazwaBazowa = 'Regiebon_Altrad';
-      }
-
-      const czystaNazwa = nazwaBazowa.replace(/[/\\?%*:|"<>]/g, '-');
-      const nazwaPliku = czystaNazwa + '.jpg';
-
-      html2canvas(element, {
-        scale: 2,
-        backgroundColor: "#ffffff"
-      }).then(canvas => {
-        const imageBase64Full = canvas.toDataURL('image/jpeg', 0.85);
-
-        const link = document.createElement('a');
-        link.download = nazwaPliku;
-        link.href = imageBase64Full;
-        link.click();
-
-        const pureBase64 = imageBase64Full.split(',')[1];
-
-        const templateParams = {
-          content_jpg: pureBase64,
-          file_name: nazwaPliku,
-          opdrachtgever: document.getElementById('input-opdrachtgever')?.value || '-',
-          steigernummer: steigernummerVal || '-'
-        };
-
-        emailjs.send('altrad', 'template_fk8w0nf', templateParams)
-          .then(function(response) {
-             alert('Het JPG-bestand (' + nazwaPliku + ') is gedownload en succesvol verzonden via e-mail!');
-             btn.innerText = "JPG downloaden en e-mail verzenden";
-             btn.disabled = false;
-          }, function(error) {
-             alert('Bestand gedownload, maar er is een fout opgetreden bij EmailJS: ' + JSON.stringify(error));
-             btn.innerText = "JPG downloaden en e-mail verzenden";
-             btn.disabled = false;
-          });
-      });
-    }
-  </script>
-</body>
-</html>
+      <button type="button" class
