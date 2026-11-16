@@ -50,6 +50,11 @@
       background-color: #003d80;
     }
 
+    .btn-jpg:disabled {
+      background-color: #6c757d;
+      cursor: not-allowed;
+    }
+
     .page-container {
       background: white;
       width: 800px;
@@ -122,6 +127,10 @@
       margin-bottom: 0;
     }
 
+    .field-group.radio-row {
+      margin-top: 8px;
+    }
+
     .field-group label {
       width: 130px;
       font-weight: bold;
@@ -140,6 +149,10 @@
       display: flex;
       gap: 10px;
       align-items: center;
+    }
+
+    .radio-toggle.werk-type-toggle {
+      height: 19px;
     }
 
     .radio-toggle label {
@@ -185,10 +198,27 @@
       text-transform: uppercase;
     }
 
+    .section-header.mt-15 {
+      margin-top: 15px;
+    }
+
+    .section-header.border-bottom {
+      border-bottom: 1px solid #000;
+    }
+
     .text-box {
       border: 1px solid #000;
       margin-bottom: 15px;
       padding: 4px;
+    }
+
+    .text-box.no-mb {
+      margin-bottom: 0;
+    }
+
+    .text-box.radio-box {
+      margin-bottom: 0;
+      padding: 6px 8px;
     }
 
     .text-box input {
@@ -218,6 +248,12 @@
       font-size: 11px;
       text-align: center;
     }
+
+    .col-action { width: 25px; }
+    .col-nr { width: 30px; }
+    .col-functie { width: 150px; }
+    .col-uren { width: 80px; }
+    .col-ok { width: 40px; }
 
     .hours-table td.center {
       text-align: center;
@@ -390,6 +426,11 @@
       grid-column: span 2;
     }
 
+    /* Ukrywanie elementów pomocniczych podczas eksportu JPG */
+    .export-mode .btn-clear-row {
+      visibility: hidden;
+    }
+
     @media print {
       .action-bar, .modal-overlay, .num-pad-overlay, .btn-clear-row { display: none !important; }
       body { padding: 0; background: white; }
@@ -424,7 +465,7 @@
           <label>Aangevraagd door:</label>
           <input type="text" id="input-aangevraagd">
         </div>
-        <div class="field-group" style="margin-top: 8px;">
+        <div class="field-group radio-row">
           <label></label>
           <div class="radio-toggle">
             <label><input type="radio" name="aangevraagd_optie" value="Ho6" checked> Ho6</label>
@@ -455,14 +496,14 @@
     <div class="info-grid">
       <div>
         <div class="section-header">Locatie / Plaats</div>
-        <div class="text-box" style="margin-bottom: 0;">
+        <div class="text-box no-mb">
           <input type="text" id="input-locatie" list="baza-locatie" placeholder="Begin met typen of kies uit de lijst...">
         </div>
       </div>
       <div>
         <div class="section-header">Type Werkzaamheden</div>
-        <div class="text-box" style="margin-bottom: 0; padding: 6px 8px;">
-          <div class="radio-toggle" style="height: 19px;">
+        <div class="text-box radio-box">
+          <div class="radio-toggle werk-type-toggle">
             <label><input type="radio" name="werk_type" value="Montage" checked> Montage</label>
             <label><input type="radio" name="werk_type" value="Demontage"> Demontage</label>
             <label><input type="radio" name="werk_type" value="Aanpassing"> Aanpassing</label>
@@ -471,52 +512,34 @@
       </div>
     </div>
 
-    <div class="section-header" style="margin-top: 15px;">Omschrijving Regiewerkzaamheden</div>
+    <div class="section-header mt-15">Omschrijving Regiewerkzaamheden</div>
     <div class="text-box">
       <input type="text" id="input-omschrijving" list="baza-omschrijving" placeholder="Begin met typen van de omschrijving of kies uit de lijst...">
     </div>
 
-    <div class="section-header" style="border-bottom: 1px solid #000;">Personeel / Urenspecificatie</div>
+    <div class="section-header border-bottom">Personeel / Urenspecificatie</div>
     <table class="hours-table">
       <thead>
         <tr>
-          <th style="width: 25px;"></th>
-          <th style="width: 30px;">Nr</th>
+          <th class="col-action"></th>
+          <th class="col-nr">Nr</th>
           <th>Naam Medewerker</th>
-          <th style="width: 150px;">Functie</th>
-          <th style="width: 80px;">Totaal Uren</th>
-          <th style="width: 80px;">OV Uren</th>
-          <th style="width: 40px;">OK</th>
+          <th class="col-functie">Functie</th>
+          <th class="col-uren">Totaal Uren</th>
+          <th class="col-uren">OV Uren</th>
+          <th class="col-ok">OK</th>
         </tr>
       </thead>
-      <tbody id="tabela-pracownikow">
-      </tbody>
+      <tbody id="tabela-pracownikow"></tbody>
     </table>
 
-    <!-- Datalevels / Listy podpowiedzi -->
-    <datalist id="baza-opdrachtgever">
-      <option value="Benno Buter"><option value="Bob van Vliet"><option value="Dennis Kruidenberg"><option value="Dion Snoek"><option value="Evert Bakker"><option value="Fabian Schoutsen"><option value="Frank Bobring"><option value="Frank de Blok"><option value="Jan van Duinen"><option value="Jelmer Dik"><option value="Jeroen Groh"><option value="Jochen Bruil"><option value="Jos Smit"><option value="Kai Swier"><option value="Kevin Bus"><option value="Marcel Hoogeland"><option value="Marco van Poecke"><option value="Mario van de Kamp"><option value="Mart Commadeur"><option value="Martin Panther"><option value="Menno Bakker"><option value="Nick Stierp"><option value="Nils de Wit"><option value="Pascal Beljaars"><option value="Remco Zwagers"><option value="Richard van Donselaar"><option value="Rob Beentjes"><option value="Robbie Baanders"><option value="Rory van Krimpen"><option value="Sander Mantel"><option value="Sem van Maren"><option value="Sjoerd Harmsen"><option value="Theo Dubbelman">
-    </datalist>
-
-    <datalist id="baza-locatie">
-      <option value="100 Bunkergebouw"><option value="200 Hellende lift"><option value="300 Oventop"><option value="400 Oven"><option value="500 Ovenhuis"><option value="600 Granulatie"><option value="610 Brakwaterpompstation"><option value="700 Gasreiniging"><option value="800 Windverhitters"><option value="900 Algemeen"><option value="KMG">
-    </datalist>
-
-    <datalist id="baza-omschrijving">
-      <option value="Montage"><option value="Montage+Verankeren"><option value="Wacht tijd lift"><option value="Montage+Horizontale transport"><option value="Demontage+opruimen sorteren"><option value="Material Transport">
-    </datalist>
-
-    <datalist id="baza-functie">
-      <option value="Voorman"><option value="Monteur">
-    </datalist>
-
-    <datalist id="baza-altrad">
-      <option value="Paweł Wysokiński"><option value="Jurjen Adamson"><option value="Tomasz Rusiecki">
-    </datalist>
-
-    <datalist id="baza-pracownikow">
-      <option value="Wysokiński P."><option value="Adamson J."><option value="Lis S."><option value="Rusiecki T."><option value="Abubakirov A."><option value="Adamczyk Ł."><option value="Brzeski D."><option value="Brzeski Ł."><option value="Brzeski M."><option value="Ismayilov U."><option value="Karczewski M."><option value="Khanmammadov I."><option value="Kohnert P."><option value="Kubiak K."><option value="Kubiak T."><option value="Matusiak D."><option value="Nitoiu F."><option value="Nowak T."><option value="Obara T."><option value="Przyborowski S."><option value="Shabiyen N."><option value="Sulewski Ł."><option value="Temirov D."><option value="Zholymbetov M.">
-    </datalist>
+    <!-- Listy podpowiedzi (wypełniane automatycznie z konfiguracji w JS) -->
+    <datalist id="baza-opdrachtgever"></datalist>
+    <datalist id="baza-locatie"></datalist>
+    <datalist id="baza-omschrijving"></datalist>
+    <datalist id="baza-functie"></datalist>
+    <datalist id="baza-altrad"></datalist>
+    <datalist id="baza-pracownikow"></datalist>
 
     <!-- Sekcja podpisów -->
     <div class="signatures-grid">
@@ -595,6 +618,58 @@
   </div>
 
   <script>
+    // =========================================================================
+    // KONFIGURACJA LIST PODPOWIEDZI (łatwa edycja nazwisk i opcji w jednym miejscu)
+    // =========================================================================
+    const LISTY_PODPOWIEDZI = {
+      'baza-opdrachtgever': [
+        "Benno Buter", "Bob van Vliet", "Dennis Kruidenberg", "Dion Snoek",
+        "Evert Bakker", "Fabian Schoutsen", "Frank Bobring", "Frank de Blok",
+        "Jan van Duinen", "Jelmer Dik", "Jeroen Groh", "Jochen Bruil",
+        "Jos Smit", "Kai Swier", "Kevin Bus", "Marcel Hoogeland",
+        "Marco van Poecke", "Mario van de Kamp", "Mart Commadeur", "Martin Panther",
+        "Menno Bakker", "Nick Stierp", "Nils de Wit", "Pascal Beljaars",
+        "Remco Zwagers", "Richard van Donselaar", "Rob Beentjes", "Robbie Baanders",
+        "Rory van Krimpen", "Sander Mantel", "Sem van Maren", "Sjoerd Harmsen",
+        "Theo Dubbelman"
+      ],
+      'baza-locatie': [
+        "100 Bunkergebouw", "200 Hellende lift", "300 Oventop", "400 Oven",
+        "500 Ovenhuis", "600 Granulatie", "610 Brakwaterpompstation",
+        "700 Gasreiniging", "800 Windverhitters", "900 Algemeen", "KMG"
+      ],
+      'baza-omschrijving': [
+        "Montage", "Montage+Verankeren", "Wacht tijd lift",
+        "Montage+Horizontale transport", "Demontage+opruimen sorteren",
+        "Material Transport"
+      ],
+      'baza-functie': [
+        "Voorman", "Monteur"
+      ],
+      'baza-altrad': [
+        "Paweł Wysokiński", "Jurjen Adamson", "Tomasz Rusiecki"
+      ],
+      'baza-pracownikow': [
+        "Wysokiński P.", "Adamson J.", "Lis S.", "Rusiecki T.",
+        "Abubakirov A.", "Adamczyk Ł.", "Brzeski D.", "Brzeski Ł.",
+        "Brzeski M.", "Gebicz R.", "Ismayilov U.", "Karczewski M.", "Khanmammadov I.",
+        "Kohnert P.", "Kubiak K.", "Kubiak T.", "Kustanov A.",
+        "Nitoiu F.", "Nowak T.", "Obara T.", "Przyborowski S.",
+        "Shabiyen N.", "Sulewski Ł.", "Temirov D.", "Zholymbetov M."
+      ]
+    };
+
+    // Wypełnianie <datalist> z konfiguracji
+    Object.entries(LISTY_PODPOWIEDZI).forEach(([id, opcje]) => {
+      const datalist = document.getElementById(id);
+      if (datalist) {
+        datalist.innerHTML = opcje.map(opt => `<option value="${opt}">`).join('');
+      }
+    });
+
+    // =========================================================================
+    // STAN FORMULARZA I OSTRZEŻENIE PRZED ZAMKNIĘCIEM
+    // =========================================================================
     let isFormDirty = false;
     let activeInput = null;
 
@@ -616,7 +691,9 @@
       document.title = this.value.trim() ? `${this.value.trim()} - Regiebon` : domyslnyTytul;
     });
 
-    // Inicjalizacja tabeli pracowników
+    // =========================================================================
+    // TABELA PRACOWNIKÓW
+    // =========================================================================
     const tbody = document.getElementById('tabela-pracownikow');
     for (let i = 1; i <= 12; i++) {
       const tr = document.createElement('tr');
@@ -640,14 +717,15 @@
       isFormDirty = true;
     }
 
-    // Flatpickr dla Altrad (z dzisiejszą datą domyślnie)
+    // =========================================================================
+    // KALENDARZE (FLATPICKR) I POLA TEKSTOWE
+    // =========================================================================
     flatpickr("#datum-input-altrad", {
       dateFormat: "d/m/Y",
       defaultDate: "today",
       disableMobile: "true"
     });
 
-    // Flatpickr dla Opdrachtgever (puste domyślnie)
     flatpickr("#datum-input-opdrachtgever", {
       dateFormat: "d/m/Y",
       disableMobile: "true"
@@ -656,7 +734,9 @@
     const inputOmschrijving = document.getElementById('input-omschrijving');
     inputOmschrijving.addEventListener('focus', function() { this.select(); });
 
-    // Obsługa numpada
+    // =========================================================================
+    // KLAWIATURA NUMERYCZNA (NUMPAD)
+    // =========================================================================
     function showNumPad(inputEl, event) {
       activeInput = inputEl;
       const numpad = document.getElementById('numpad');
@@ -680,7 +760,10 @@
     }
 
     function clearValue() {
-      if (activeInput) activeInput.value = '';
+      if (activeInput) {
+        activeInput.value = '';
+        isFormDirty = true;
+      }
     }
 
     function closeNumPad() {
@@ -695,12 +778,20 @@
       }
     });
 
+    // =========================================================================
+    // MODAL POTWIERDZENIA, GENEROWANIE JPG I WYSYŁKA EMAILJS
+    // =========================================================================
     function toonBevestigingModal() { document.getElementById('confirm-modal').style.display = 'flex'; }
     function sluitModal() { document.getElementById('confirm-modal').style.display = 'none'; }
     function bevestigEnVerzend() { sluitModal(); generujJPGiWyslij(); }
 
+    function resetSubmitButton(btn) {
+      btn.innerText = "JPG downloaden en e-mail verzenden";
+      btn.disabled = false;
+    }
+
     function generujJPGiWyslij() {
-      isFormDirty = false;
+      closeNumPad();
       const btn = document.getElementById('btn-submit');
       btn.innerText = "Genereren en verzenden...";
       btn.disabled = true;
@@ -714,34 +805,45 @@
       else if (steigernummerVal) nazwaBazowa = steigernummerVal;
       else if (werkTypeSelected) nazwaBazowa = `Regiebon_${werkTypeSelected}`;
 
-      const nazwaPliku = nazwaBazowa.replace(/[/\\?%*:|"<>]/g, '-') + '.jpg';
+      const nazwaPliku = nazwaBazowa.replace(/[/\?%*:|"<>]/g, '-') + '.jpg';
 
-      html2canvas(element, { scale: 2, backgroundColor: "#ffffff" }).then(canvas => {
-        const imageBase64Full = canvas.toDataURL('image/jpeg', 0.85);
+      // Ukrycie przycisków usuwania wierszy (✕) na czas robienia zrzutu ekranu
+      element.classList.add('export-mode');
 
-        const link = document.createElement('a');
-        link.download = nazwaPliku;
-        link.href = imageBase64Full;
-        link.click();
+      html2canvas(element, { scale: 2, backgroundColor: "#ffffff" })
+        .then(canvas => {
+          element.classList.remove('export-mode');
+          isFormDirty = false;
 
-        const templateParams = {
-          content_jpg: imageBase64Full.split(',')[1],
-          file_name: nazwaPliku,
-          opdrachtgever: document.getElementById('input-opdrachtgever')?.value || '-',
-          steigernummer: steigernummerVal || '-'
-        };
+          const imageBase64Full = canvas.toDataURL('image/jpeg', 0.85);
 
-        emailjs.send('altrad', 'template_fk8w0nf', templateParams)
-          .then(() => {
-             alert('Het JPG-bestand (' + nazwaPliku + ') is gedownload en succesvol verzonden via e-mail!');
-             btn.innerText = "JPG downloaden en e-mail verzenden";
-             btn.disabled = false;
-          }, (error) => {
-             alert('Bestand gedownload, maar er is een fout opgetreden bij EmailJS: ' + JSON.stringify(error));
-             btn.innerText = "JPG downloaden en e-mail verzenden";
-             btn.disabled = false;
-          });
-      });
+          const link = document.createElement('a');
+          link.download = nazwaPliku;
+          link.href = imageBase64Full;
+          link.click();
+
+          const templateParams = {
+            content_jpg: imageBase64Full.split(',')[1],
+            file_name: nazwaPliku,
+            opdrachtgever: document.getElementById('input-opdrachtgever')?.value || '-',
+            steigernummer: steigernummerVal || '-'
+          };
+
+          emailjs.send('altrad', 'template_fk8w0nf', templateParams)
+            .then(() => {
+              alert('Het JPG-bestand (' + nazwaPliku + ') is gedownload en succesvol verzonden via e-mail!');
+              resetSubmitButton(btn);
+            })
+            .catch(error => {
+              alert('Bestand gedownload, maar er is een fout opgetreden bij EmailJS: ' + JSON.stringify(error));
+              resetSubmitButton(btn);
+            });
+        })
+        .catch(error => {
+          element.classList.remove('export-mode');
+          alert('Er is een fout opgetreden bij het genereren van het JPG-bestand: ' + error);
+          resetSubmitButton(btn);
+        });
     }
   </script>
 </body>
