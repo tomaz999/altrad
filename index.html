@@ -32,13 +32,17 @@
       max-width: 800px;
       margin: 20px auto 0 auto;
       text-align: center;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
     }
 
     .btn-jpg {
       background-color: #0056b3;
       color: white;
       border: none;
-      padding: 12px 24px;
+      padding: 12px 22px;
       font-size: 14px;
       font-weight: bold;
       border-radius: 4px;
@@ -53,6 +57,142 @@
     .btn-jpg:disabled {
       background-color: #6c757d;
       cursor: not-allowed;
+    }
+
+    .btn-duplicate {
+      background-color: #17a2b8;
+      color: white;
+      border: none;
+      padding: 12px 18px;
+      font-size: 13px;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .btn-duplicate:hover {
+      background-color: #138496;
+    }
+
+    .btn-manage {
+      background-color: #343a40;
+      color: white;
+      border: none;
+      padding: 12px 18px;
+      font-size: 13px;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .btn-manage:hover {
+      background-color: #23272b;
+    }
+
+    /* Panel zarządzania osobami */
+    .manage-panel {
+      display: none;
+      max-width: 800px;
+      margin: 15px auto 0 auto;
+      background: #ffffff;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 16px 20px;
+      box-sizing: border-box;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    }
+
+    .manage-panel h3 {
+      margin: 0 0 12px 0;
+      font-size: 15px;
+      color: #222;
+    }
+
+    .add-person-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .add-person-row input {
+      flex: 1;
+      padding: 8px 10px;
+      font-size: 13px;
+      border: 1px solid #bbb;
+      border-radius: 4px;
+    }
+
+    .btn-add {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .btn-add:hover {
+      background-color: #218838;
+    }
+
+    .btn-reset-list {
+      background-color: #e9ecef;
+      color: #333;
+      border: 1px solid #ccc;
+      padding: 8px 12px;
+      font-size: 12px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .btn-reset-list:hover {
+      background-color: #dde2e6;
+    }
+
+    .people-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      max-height: 220px;
+      overflow-y: auto;
+      padding: 6px;
+      background: #f8f9fa;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+    }
+
+    .person-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #ffffff;
+      border: 1px solid #ced4da;
+      border-radius: 20px;
+      padding: 4px 10px;
+      font-size: 12px;
+    }
+
+    .btn-remove-person {
+      background: #dc3545;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      font-size: 11px;
+      line-height: 18px;
+      text-align: center;
+      cursor: pointer;
+      padding: 0;
+      font-weight: bold;
+    }
+
+    .btn-remove-person:hover {
+      background: #b02a37;
     }
 
     .page-container {
@@ -234,7 +374,7 @@
     .hours-table {
       width: 100%;
       border-collapse: collapse;
-      margin-bottom: 15px;
+      margin-bottom: 6px;
     }
 
     .hours-table th, .hours-table td {
@@ -249,7 +389,7 @@
       text-align: center;
     }
 
-    .col-action { width: 25px; }
+    .col-action { width: 42px; }
     .col-nr { width: 30px; }
     .col-functie { width: 150px; }
     .col-uren { width: 80px; }
@@ -278,6 +418,12 @@
       height: 16px;
     }
 
+    .row-actions {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+
     .btn-clear-row {
       background: #dc3545;
       color: white;
@@ -292,6 +438,45 @@
 
     .btn-clear-row:hover {
       background: #bd2130;
+    }
+
+    .btn-delete-row {
+      background: #6c757d;
+      color: white;
+      border: none;
+      border-radius: 3px;
+      padding: 1px 5px;
+      font-size: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      line-height: 12px;
+    }
+
+    .btn-delete-row:hover {
+      background: #495057;
+    }
+
+    .table-controls {
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-add-row {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 5px 12px;
+      font-size: 11px;
+      font-weight: bold;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    .btn-add-row:hover {
+      background-color: #218838;
     }
 
     .signatures-grid {
@@ -314,7 +499,6 @@
       text-transform: uppercase;
     }
 
-    /* Modal / Dialoogvenster */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -380,7 +564,6 @@
       background-color: #5a6268;
     }
 
-    /* Klawiatura numeryczna Pop-up */
     .num-pad-overlay {
       display: none;
       position: absolute;
@@ -426,13 +609,14 @@
       grid-column: span 2;
     }
 
-    /* Ukrywanie elementów pomocniczych podczas eksportu JPG */
-    .export-mode .btn-clear-row {
-      visibility: hidden;
+    .export-mode .btn-clear-row,
+    .export-mode .btn-delete-row,
+    .export-mode .table-controls {
+      display: none !important;
     }
 
     @media print {
-      .action-bar, .modal-overlay, .num-pad-overlay, .btn-clear-row { display: none !important; }
+      .action-bar, .manage-panel, .modal-overlay, .num-pad-overlay, .btn-clear-row, .btn-delete-row, .table-controls { display: none !important; }
       body { padding: 0; background: white; }
       .page-container { border: none; box-shadow: none; width: 100%; }
     }
@@ -492,7 +676,6 @@
       </div>
     </div>
 
-    <!-- 2-koloms sectie: Locatie + Type Werkzaamheden -->
     <div class="info-grid">
       <div>
         <div class="section-header">Locatie / Plaats</div>
@@ -533,7 +716,10 @@
       <tbody id="tabela-pracownikow"></tbody>
     </table>
 
-    <!-- Listy podpowiedzi (wypełniane automatycznie z konfiguracji w JS) -->
+    <div class="table-controls">
+      <button type="button" class="btn-add-row" onclick="dodajWiersz()">+ Dodaj wiersz</button>
+    </div>
+
     <datalist id="baza-opdrachtgever"></datalist>
     <datalist id="baza-locatie"></datalist>
     <datalist id="baza-omschrijving"></datalist>
@@ -541,7 +727,6 @@
     <datalist id="baza-altrad"></datalist>
     <datalist id="baza-pracownikow"></datalist>
 
-    <!-- Sekcja podpisów -->
     <div class="signatures-grid">
       <div class="signature-block">
         <div class="signature-title">Akkoord Altrad</div>
@@ -586,6 +771,19 @@
 
   <div class="action-bar">
     <button class="btn-jpg" id="btn-submit" onclick="toonBevestigingModal()">JPG downloaden en e-mail verzenden</button>
+    <button type="button" class="btn-duplicate" onclick="duplikujBon()">📄 Duplikuj</button>
+    <button type="button" class="btn-manage" onclick="toggleManagePanel()">👥 Zarządzaj listą pracowników</button>
+  </div>
+
+  <!-- Panel dodawania i usuwania osób z listy pracowników -->
+  <div class="manage-panel" id="manage-panel">
+    <h3>Lista pracowników (podpowiedzi w tabeli)</h3>
+    <div class="add-person-row">
+      <input type="text" id="new-person-input" placeholder="Np. Kowalski J." onkeydown="if(event.key==='Enter') addPerson()">
+      <button type="button" class="btn-add" onclick="addPerson()">+ Dodaj</button>
+      <button type="button" class="btn-reset-list" onclick="resetPeopleList()">Przywróć domyślną</button>
+    </div>
+    <div class="people-list" id="people-chips-container"></div>
   </div>
 
   <div class="modal-overlay" id="confirm-modal">
@@ -598,7 +796,6 @@
     </div>
   </div>
 
-  <!-- Klawiatura numeryczna Pop-up -->
   <div class="num-pad-overlay" id="numpad">
     <div class="num-pad-grid">
       <button type="button" class="num-pad-btn" onclick="addValue('7')">7</button>
@@ -618,10 +815,12 @@
   </div>
 
   <script>
-    // =========================================================================
-    // KONFIGURACJA LIST PODPOWIEDZI (łatwa edycja nazwisk i opcji w jednym miejscu)
-    // =========================================================================
-    const LISTY_PODPOWIEDZI = {
+    const STORAGE_KEY_PRACOWNICY = 'altrad_regiebon_pracownicy_v1';
+    const STORAGE_KEY_DUPLICATE_PREFIX = 'altrad_regiebon_dup_';
+    const PRIORYTETOWE_NAZWISKA = ['rusiecki', 'adamson', 'wysokinski'];
+    const POCZATKOWA_LICZBA_WIERSZY = 10;
+
+    const DOMYSLNE_LISTY = {
       'baza-opdrachtgever': [
         "Benno Buter", "Bob van Vliet", "Dennis Kruidenberg", "Dion Snoek",
         "Evert Bakker", "Fabian Schoutsen", "Frank Bobring", "Frank de Blok",
@@ -653,23 +852,152 @@
         "Wysokiński P.", "Adamson J.", "Lis S.", "Rusiecki T.",
         "Abubakirov A.", "Adamczyk Ł.", "Brzeski D.", "Brzeski Ł.",
         "Brzeski M.", "Gebicz R.", "Ismayilov U.", "Karczewski M.", "Khanmammadov I.",
-        "Kubiak K.", "Kubiak T.", "Kustanov A.",
+        "Kohnert P.", "Kubiak K.", "Kubiak T.", "Kustanov A.",
         "Nitoiu F.", "Nowak T.", "Obara T.", "Przyborowski S.",
         "Shabiyen N.", "Sulewski Ł.", "Temirov D.", "Zholymbetov M."
       ]
     };
 
-    // Wypełnianie <datalist> z konfiguracji
-    Object.entries(LISTY_PODPOWIEDZI).forEach(([id, opcje]) => {
-      const datalist = document.getElementById(id);
-      if (datalist) {
-        datalist.innerHTML = opcje.map(opt => `<option value="${opt}">`).join('');
-      }
-    });
+    function normalizujTekst(str) {
+      return str
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/ł/g, 'l')
+        .replace(/Ł/g, 'L')
+        .toLowerCase()
+        .trim();
+    }
 
-    // =========================================================================
-    // STAN FORMULARZA I OSTRZEŻENIE PRZED ZAMKNIĘCIEM
-    // =========================================================================
+    function pobierzNazwisko(wpis) {
+      const czesci = wpis.trim().split(/\s+/);
+      return czesci[0] || '';
+    }
+
+    function sortujListePracownikow(lista) {
+      const priorytetowe = [];
+      const pozostale = [];
+
+      lista.forEach((osoba) => {
+        const nazwiskoNorm = normalizujTekst(pobierzNazwisko(osoba));
+        const idxPriorytetu = PRIORYTETOWE_NAZWISKA.indexOf(nazwiskoNorm);
+        if (idxPriorytetu !== -1) {
+          priorytetowe.push({ osoba, idxPriorytetu });
+        } else {
+          pozostale.push(osoba);
+        }
+      });
+
+      priorytetowe.sort((a, b) => a.idxPriorytetu - b.idxPriorytetu);
+
+      pozostale.sort((a, b) =>
+        pobierzNazwisko(a).localeCompare(pobierzNazwisko(b), 'pl', { sensitivity: 'base' })
+      );
+
+      return [...priorytetowe.map(item => item.osoba), ...pozostale];
+    }
+
+    function wczytajListePracownikow() {
+      try {
+        const zapisane = localStorage.getItem(STORAGE_KEY_PRACOWNICY);
+        if (zapisane) {
+          const parsed = JSON.parse(zapisane);
+          if (Array.isArray(parsed)) return sortujListePracownikow(parsed);
+        }
+      } catch (e) {}
+      return sortujListePracownikow([...DOMYSLNE_LISTY['baza-pracownikow']]);
+    }
+
+    function zapiszListePracownikow(lista) {
+      localStorage.setItem(STORAGE_KEY_PRACOWNICY, JSON.stringify(lista));
+    }
+
+    const LISTY_PODPOWIEDZI = {
+      ...DOMYSLNE_LISTY,
+      'baza-pracownikow': wczytajListePracownikow()
+    };
+
+    function odswiezDatalisty() {
+      Object.entries(LISTY_PODPOWIEDZI).forEach(([id, opcje]) => {
+        const datalist = document.getElementById(id);
+        if (datalist) {
+          datalist.innerHTML = opcje.map(opt => `<option value="${opt.replace(/"/g, '&quot;')}"></option>`).join('');
+        }
+      });
+    }
+
+    function renderPeopleChips() {
+      const container = document.getElementById('people-chips-container');
+      const osoby = LISTY_PODPOWIEDZI['baza-pracownikow'];
+
+      if (!osoby.length) {
+        container.innerHTML = '<span style="color:#666;">Lista jest pusta. Dodaj pierwszą osobę powyżej.</span>';
+        return;
+      }
+
+      container.innerHTML = osoby.map((osoba, idx) => `
+        <span class="person-chip">
+          <span>${osoba}</span>
+          <button type="button" class="btn-remove-person" onclick="removePerson(${idx})" title="Usuń z listy">✕</button>
+        </span>
+      `).join('');
+    }
+
+    function toggleManagePanel() {
+      const panel = document.getElementById('manage-panel');
+      const isVisible = panel.style.display === 'block';
+      panel.style.display = isVisible ? 'none' : 'block';
+      if (!isVisible) {
+        renderPeopleChips();
+        document.getElementById('new-person-input').focus();
+      }
+    }
+
+    function addPerson() {
+      const input = document.getElementById('new-person-input');
+      const imieNazwisko = input.value.trim();
+      if (!imieNazwisko) return;
+
+      const lista = LISTY_PODPOWIEDZI['baza-pracownikow'];
+      const duplikat = lista.some(os => os.toLowerCase() === imieNazwisko.toLowerCase());
+      if (duplikat) {
+        alert('Ta osoba jest już na liście.');
+        return;
+      }
+
+      lista.push(imieNazwisko);
+      const posortowana = sortujListePracownikow(lista);
+      LISTY_PODPOWIEDZI['baza-pracownikow'] = posortowana;
+      zapiszListePracownikow(posortowana);
+      odswiezDatalisty();
+      renderPeopleChips();
+      input.value = '';
+      input.focus();
+    }
+
+    function removePerson(index) {
+      const lista = LISTY_PODPOWIEDZI['baza-pracownikow'];
+      const usunieta = lista[index];
+      if (!confirm(`Czy na pewno usunąć "${usunieta}" z listy pracowników?`)) return;
+
+      lista.splice(index, 1);
+      const posortowana = sortujListePracownikow(lista);
+      LISTY_PODPOWIEDZI['baza-pracownikow'] = posortowana;
+      zapiszListePracownikow(posortowana);
+      odswiezDatalisty();
+      renderPeopleChips();
+    }
+
+    function resetPeopleList() {
+      if (!confirm('Przywrócić domyślną listę pracowników?')) return;
+      const posortowana = sortujListePracownikow([...DOMYSLNE_LISTY['baza-pracownikow']]);
+      LISTY_PODPOWIEDZI['baza-pracownikow'] = posortowana;
+      zapiszListePracownikow(posortowana);
+      odswiezDatalisty();
+      renderPeopleChips();
+    }
+
+    odswiezDatalisty();
+
     let isFormDirty = false;
     let activeInput = null;
 
@@ -684,29 +1012,80 @@
       }
     });
 
-    // Dynamiczna zmiana tytułu zakładki
     const steigernummerInput = document.getElementById('input-steigernummer');
     const domyslnyTytul = document.title;
-    steigernummerInput.addEventListener('input', function() {
-      document.title = this.value.trim() ? `${this.value.trim()} - Regiebon` : domyslnyTytul;
-    });
+    function aktualizujTytulKarty() {
+      const val = steigernummerInput.value.trim();
+      document.title = val ? `${val} - Regiebon` : domyslnyTytul;
+    }
+    steigernummerInput.addEventListener('input', aktualizujTytulKarty);
 
     // =========================================================================
-    // TABELA PRACOWNIKÓW
+    // TABELA PRACOWNIKÓW (10 WIERSZY NA START + DYNAMICZNE DODAWANIE)
     // =========================================================================
     const tbody = document.getElementById('tabela-pracownikow');
-    for (let i = 1; i <= 12; i++) {
+
+    function stworzWiersz(numer, dane = {}) {
       const tr = document.createElement('tr');
+      const czyDodatkowy = numer > POCZATKOWA_LICZBA_WIERSZY;
       tr.innerHTML = `
-        <td class="center"><button type="button" class="btn-clear-row" onclick="clearRow(this)" title="Wyczyść wiersz">✕</button></td>
-        <td class="center">${i}</td>
-        <td><input type="text" class="input-pracownik-naam" list="baza-pracownikow" placeholder="Naam..."></td>
-        <td><input type="text" class="input-pracownik-functie" list="baza-functie" placeholder="Functie..."></td>
-        <td><input type="text" readonly class="num-input input-pracownik-uren" placeholder="0" onclick="showNumPad(this, event)"></td>
-        <td><input type="text" readonly class="num-input input-pracownik-ov-uren" placeholder="0" onclick="showNumPad(this, event)"></td>
-        <td class="center"><input type="checkbox" title="Wprowadzono do systemu"></td>
+        <td class="center">
+          <div class="row-actions">
+            <button type="button" class="btn-clear-row" onclick="clearRow(this)" title="Wyczyść wiersz">✕</button>
+            ${czyDodatkowy ? '<button type="button" class="btn-delete-row" onclick="deleteRow(this)" title="Usuń wiersz">−</button>' : ''}
+          </div>
+        </td>
+        <td class="center row-nr">${numer}</td>
+        <td><input type="text" class="input-pracownik-naam" list="baza-pracownikow" placeholder="Naam..." value="${(dane.naam || '').replace(/"/g, '&quot;')}"></td>
+        <td><input type="text" class="input-pracownik-functie" list="baza-functie" placeholder="Functie..." value="${(dane.functie || '').replace(/"/g, '&quot;')}"></td>
+        <td><input type="text" readonly class="num-input input-pracownik-uren" placeholder="0" onclick="showNumPad(this, event)" value="${(dane.uren || '').replace(/"/g, '&quot;')}"></td>
+        <td><input type="text" readonly class="num-input input-pracownik-ov-uren" placeholder="0" onclick="showNumPad(this, event)" value="${(dane.ovUren || '').replace(/"/g, '&quot;')}"></td>
+        <td class="center"><input type="checkbox" title="Wprowadzono do systemu" ${dane.ok ? 'checked' : ''}></td>
       `;
-      tbody.appendChild(tr);
+      return tr;
+    }
+
+    function przenumerujWiersze() {
+      const trs = Array.from(tbody.querySelectorAll('tr'));
+      trs.forEach((tr, idx) => {
+        const nr = idx + 1;
+        const nrCell = tr.querySelector('.row-nr');
+        if (nrCell) nrCell.textContent = nr;
+
+        const actionsDiv = tr.querySelector('.row-actions');
+        if (actionsDiv) {
+          const existingDel = actionsDiv.querySelector('.btn-delete-row');
+          if (nr > POCZATKOWA_LICZBA_WIERSZY && !existingDel) {
+            const delBtn = document.createElement('button');
+            delBtn.type = 'button';
+            delBtn.className = 'btn-delete-row';
+            delBtn.title = 'Usuń wiersz';
+            delBtn.textContent = '−';
+            delBtn.onclick = function() { deleteRow(this); };
+            actionsDiv.appendChild(delBtn);
+          } else if (nr <= POCZATKOWA_LICZBA_WIERSZY && existingDel) {
+            existingDel.remove();
+          }
+        }
+      });
+    }
+
+    function dodajWiersz() {
+      const nextNr = tbody.querySelectorAll('tr').length + 1;
+      tbody.appendChild(stworzWiersz(nextNr));
+      isFormDirty = true;
+    }
+
+    function deleteRow(button) {
+      const row = button.closest('tr');
+      if (!row) return;
+      row.remove();
+      przenumerujWiersze();
+      isFormDirty = true;
+    }
+
+    for (let i = 1; i <= POCZATKOWA_LICZBA_WIERSZY; i++) {
+      tbody.appendChild(stworzWiersz(i));
     }
 
     function clearRow(button) {
@@ -717,16 +1096,13 @@
       isFormDirty = true;
     }
 
-    // =========================================================================
-    // KALENDARZE (FLATPICKR) I POLA TEKSTOWE
-    // =========================================================================
-    flatpickr("#datum-input-altrad", {
+    const fpAltrad = flatpickr("#datum-input-altrad", {
       dateFormat: "d/m/Y",
       defaultDate: "today",
       disableMobile: "true"
     });
 
-    flatpickr("#datum-input-opdrachtgever", {
+    const fpOpdrachtgever = flatpickr("#datum-input-opdrachtgever", {
       dateFormat: "d/m/Y",
       disableMobile: "true"
     });
@@ -734,9 +1110,114 @@
     const inputOmschrijving = document.getElementById('input-omschrijving');
     inputOmschrijving.addEventListener('focus', function() { this.select(); });
 
-    // =========================================================================
-    // KLAWIATURA NUMERYCZNA (NUMPAD)
-    // =========================================================================
+    const POLA_TEKSTOWE_IDS = [
+      'input-opdrachtgever',
+      'input-aangevraagd',
+      'input-opdrachtnummer',
+      'input-projectnummer',
+      'input-steigernummer',
+      'input-locatie',
+      'input-omschrijving',
+      'input-altrad-naam',
+      'datum-input-altrad',
+      'input-handtekening',
+      'input-opdrachtgever-naam',
+      'datum-input-opdrachtgever',
+      'input-handtekening-opdrachtgever'
+    ];
+
+    function zbierzStanFormularza() {
+      const pola = {};
+      POLA_TEKSTOWE_IDS.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) pola[id] = el.value;
+      });
+
+      const aangevraagdOptie = document.querySelector('input[name="aangevraagd_optie"]:checked')?.value || 'Ho6';
+      const werkType = document.querySelector('input[name="werk_type"]:checked')?.value || 'Montage';
+
+      const wiersze = Array.from(document.querySelectorAll('#tabela-pracownikow tr')).map(tr => ({
+        naam: tr.querySelector('.input-pracownik-naam')?.value || '',
+        functie: tr.querySelector('.input-pracownik-functie')?.value || '',
+        uren: tr.querySelector('.input-pracownik-uren')?.value || '',
+        ovUren: tr.querySelector('.input-pracownik-ov-uren')?.value || '',
+        ok: tr.querySelector('input[type="checkbox"]')?.checked || false
+      }));
+
+      return { pola, aangevraagdOptie, werkType, wiersze };
+    }
+
+    function wczytajStanFormularza(stan) {
+      if (!stan) return;
+
+      if (stan.pola) {
+        Object.entries(stan.pola).forEach(([id, val]) => {
+          const el = document.getElementById(id);
+          if (el) el.value = val;
+        });
+        if (stan.pola['datum-input-altrad']) {
+          fpAltrad.setDate(stan.pola['datum-input-altrad'], false, "d/m/Y");
+        }
+        if (stan.pola['datum-input-opdrachtgever']) {
+          fpOpdrachtgever.setDate(stan.pola['datum-input-opdrachtgever'], false, "d/m/Y");
+        }
+      }
+
+      if (stan.aangevraagdOptie) {
+        const radioA = document.querySelector(`input[name="aangevraagd_optie"][value="${stan.aangevraagdOptie}"]`);
+        if (radioA) radioA.checked = true;
+      }
+
+      if (stan.werkType) {
+        const radioW = document.querySelector(`input[name="werk_type"][value="${stan.werkType}"]`);
+        if (radioW) radioW.checked = true;
+      }
+
+      if (Array.isArray(stan.wiersze) && stan.wiersze.length > 0) {
+        tbody.innerHTML = '';
+        stan.wiersze.forEach((daneWiersza, idx) => {
+          tbody.appendChild(stworzWiersz(idx + 1, daneWiersza));
+        });
+        przenumerujWiersze();
+      }
+
+      aktualizujTytulKarty();
+      isFormDirty = true;
+    }
+
+    function duplikujBon() {
+      const stan = zbierzStanFormularza();
+      const dupId = Date.now() + '_' + Math.random().toString(36).slice(2, 7);
+      const storageKey = STORAGE_KEY_DUPLICATE_PREFIX + dupId;
+
+      try {
+        localStorage.setItem(storageKey, JSON.stringify(stan));
+        const url = new URL(window.location.href);
+        url.searchParams.set('dup', dupId);
+        window.open(url.toString(), '_blank');
+      } catch (e) {
+        alert('Nie udało się zduplikować formularza: ' + e.message);
+      }
+    }
+
+    (function sprawdzDuplikatPrzyStarcie() {
+      const params = new URLSearchParams(window.location.search);
+      const dupId = params.get('dup');
+      if (!dupId) return;
+
+      const storageKey = STORAGE_KEY_DUPLICATE_PREFIX + dupId;
+      try {
+        const raw = localStorage.getItem(storageKey);
+        if (raw) {
+          wczytajStanFormularza(JSON.parse(raw));
+          localStorage.removeItem(storageKey);
+        }
+        const cleanUrl = new URL(window.location.href);
+        cleanUrl.searchParams.delete('dup');
+        window.history.replaceState({}, document.title, cleanUrl.toString());
+      } catch (e) {}
+    })();
+
     function showNumPad(inputEl, event) {
       activeInput = inputEl;
       const numpad = document.getElementById('numpad');
@@ -778,9 +1259,6 @@
       }
     });
 
-    // =========================================================================
-    // MODAL POTWIERDZENIA, GENEROWANIE JPG I WYSYŁKA EMAILJS
-    // =========================================================================
     function toonBevestigingModal() { document.getElementById('confirm-modal').style.display = 'flex'; }
     function sluitModal() { document.getElementById('confirm-modal').style.display = 'none'; }
     function bevestigEnVerzend() { sluitModal(); generujJPGiWyslij(); }
@@ -807,7 +1285,6 @@
 
       const nazwaPliku = nazwaBazowa.replace(/[/\?%*:|"<>]/g, '-') + '.jpg';
 
-      // Ukrycie przycisków usuwania wierszy (✕) na czas robienia zrzutu ekranu
       element.classList.add('export-mode');
 
       html2canvas(element, { scale: 2, backgroundColor: "#ffffff" })
